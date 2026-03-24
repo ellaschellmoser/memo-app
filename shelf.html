@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Shelf — Memo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shelf.html" class="active">My Shelf</a>
+      <a href="friends.html">Friends</a>
+      <button class="btn btn-primary" onclick="openModal()">+ Add Product</button>
+    </div>
+  </nav>
+
+  <!-- Shelf Page -->
+  <main class="shelf-page">
+    <div class="shelf-page-header">
+      <div>
+        <h1>My Shelf</h1>
+        <p id="product-count">0 products</p>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="filter-bar">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="rotation">In Rotation</button>
+      <button class="filter-tab" data-filter="want">Want to Try</button>
+      <button class="filter-tab" data-filter="retired">Retired</button>
+    </div>
+
+    <!-- Product grid -->
+    <div class="product-grid" id="product-grid">
+      <!-- Cards rendered by JS -->
+    </div>
+  </main>
+
+  <!-- Add Product Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <h2>Add a Product</h2>
+
+      <div class="form-group">
+        <label>Brand</label>
+        <input type="text" id="input-brand" placeholder="e.g. The Ordinary" />
+      </div>
+
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" id="input-name" placeholder="e.g. Niacinamide 10% + Zinc 1%" />
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <select id="input-category">
+          <option value="skincare">Skincare</option>
+          <option value="makeup">Makeup</option>
+          <option value="haircare">Haircare</option>
+          <option value="bodycare">Body Care</option>
+          <option value="fragrance">Fragrance</option>
+          <option value="tools">Tools & Accessories</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select id="input-status">
+          <option value="rotation">In Rotation</option>
+          <option value="want">Want to Try</option>
+          <option value="retired">Retired</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Your Rating</label>
+        <div class="modal-stars" id="modal-stars">
+          <span class="star" data-val="1">★</span>
+          <span class="star" data-val="2">★</span>
+          <span class="star" data-val="3">★</span>
+          <span class="star" data-val="4">★</span>
+          <span class="star" data-val="5">★</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea id="input-note" placeholder="What do you love (or not) about this product?"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="addProduct()">Add to Shelf</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
