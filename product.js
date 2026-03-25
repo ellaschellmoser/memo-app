@@ -14,6 +14,7 @@ const CATEGORY_LABELS = {
 const params  = new URLSearchParams(location.search);
 const rawId   = parseInt(params.get('id'));
 const product = isNaN(rawId) ? null : products.find(p => p.id === rawId);
+let detailRating = product ? product.rating : 0;
 
 if (!product) {
   renderNotFound();
@@ -33,8 +34,6 @@ function renderNotFound() {
 }
 
 // ── Render Detail ─────────────────────────────────────
-let detailRating = product ? product.rating : 0;
-
 function renderDetail(p) {
   const card = document.getElementById('detail-card');
 
@@ -45,48 +44,65 @@ function renderDetail(p) {
     : '';
   const emojiStyle = p.imageUrl ? 'display:none' : '';
 
+  const tagsHtml = (p.tags && p.tags.length)
+    ? `<div class="form-group">
+        <label>Ingredients</label>
+        <div class="ingredient-tags">
+          ${p.tags.map(t => `<span class="ingredient-tag">${escHtml(t)}</span>`).join('')}
+        </div>
+       </div>`
+    : '';
+
   card.innerHTML = `
-    <div class="detail-img">
-      ${imgHtml}
-      <span class="card-emoji-fallback" style="${emojiStyle}">${EMOJI_MAP[p.category] || '✦'}</span>
-    </div>
+    <div class="product-layout">
 
-    <div class="detail-body">
-      <div class="detail-brand">${escHtml(p.brand)}</div>
-      <div class="detail-name">${escHtml(p.name)}</div>
-      <span class="category-badge">${CATEGORY_LABELS[p.category] || p.category}</span>
-
-      <div class="form-group">
-        <label>Status</label>
-        <select id="detail-status">
-          <option value="rotation" ${p.status === 'rotation' ? 'selected' : ''}>In Rotation</option>
-          <option value="want"     ${p.status === 'want'     ? 'selected' : ''}>Want to Try</option>
-          <option value="retired"  ${p.status === 'retired'  ? 'selected' : ''}>Retired</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Your Rating</label>
-        <div class="detail-stars" id="detail-stars">
-          ${[1,2,3,4,5].map(n =>
-            `<span class="star ${n <= detailRating ? 'filled' : ''}" data-val="${n}">★</span>`
-          ).join('')}
+      <div class="product-img-col">
+        <div class="product-detail-img">
+          ${imgHtml}
+          <span class="card-emoji-fallback" style="${emojiStyle}">${EMOJI_MAP[p.category] || '✦'}</span>
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Notes</label>
-        <textarea id="detail-note" rows="4">${escHtml(p.note)}</textarea>
-      </div>
+      <div class="product-info-col">
+        <div class="detail-brand">${escHtml(p.brand)}</div>
+        <div class="product-title">${escHtml(p.name)}</div>
+        <span class="category-badge">${CATEGORY_LABELS[p.category] || p.category}</span>
 
-      <div class="detail-actions">
-        <button class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
-        <span class="save-feedback" id="save-feedback">Saved!</span>
-        <div class="delete-zone">
-          <button class="btn btn-ghost" id="cancel-delete" style="display:none" onclick="cancelDelete()">Cancel</button>
-          <button class="btn-danger btn" id="delete-btn" onclick="confirmDelete()">Delete</button>
+        <div class="form-group" style="margin-top:1.5rem">
+          <label>Your Rating</label>
+          <div class="detail-stars" id="detail-stars">
+            ${[1,2,3,4,5].map(n =>
+              `<span class="star ${n <= detailRating ? 'filled' : ''}" data-val="${n}">★</span>`
+            ).join('')}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select id="detail-status">
+            <option value="rotation" ${p.status === 'rotation' ? 'selected' : ''}>In Rotation</option>
+            <option value="want"     ${p.status === 'want'     ? 'selected' : ''}>Want to Try</option>
+            <option value="retired"  ${p.status === 'retired'  ? 'selected' : ''}>Not for Me</option>
+          </select>
+        </div>
+
+        ${tagsHtml}
+
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="detail-note" rows="6">${escHtml(p.note)}</textarea>
+        </div>
+
+        <div class="detail-actions">
+          <button class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
+          <span class="save-feedback" id="save-feedback">Saved!</span>
+          <div class="delete-zone">
+            <button class="btn btn-ghost" id="cancel-delete" style="display:none" onclick="cancelDelete()">Cancel</button>
+            <button class="btn-danger btn" id="delete-btn" onclick="confirmDelete()">Delete</button>
+          </div>
         </div>
       </div>
+
     </div>`;
 
   // Wire up detail star interactions

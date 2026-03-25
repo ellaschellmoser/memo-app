@@ -19,6 +19,14 @@
     </div>
   </nav>
 
+  <!-- Top 3 Section -->
+  <section class="top3-section">
+    <div class="top3-inner">
+      <p class="section-label">Your Favourites</p>
+      <div class="top3-grid" id="top3-grid"></div>
+    </div>
+  </section>
+
   <!-- Shelf Page -->
   <main class="shelf-page">
     <div class="shelf-page-header">
@@ -28,12 +36,41 @@
       </div>
     </div>
 
+    <!-- Secondary filters -->
+    <div class="secondary-filters">
+      <select id="filter-category" onchange="applySecondaryFilters()">
+        <option value="">All Categories</option>
+        <option value="skincare">Skincare</option>
+        <option value="makeup">Makeup</option>
+        <option value="haircare">Haircare</option>
+        <option value="bodycare">Body Care</option>
+        <option value="fragrance">Fragrance</option>
+        <option value="tools">Tools</option>
+      </select>
+      <select id="filter-rating" onchange="applySecondaryFilters()">
+        <option value="0">All Ratings</option>
+        <option value="5">★★★★★ only</option>
+        <option value="4">★★★★ & up</option>
+        <option value="3">★★★ & up</option>
+      </select>
+      <select id="filter-ingredient" onchange="applySecondaryFilters()">
+        <option value="">All Ingredients</option>
+        <option value="niacinamide">Niacinamide</option>
+        <option value="hyaluronic acid">Hyaluronic Acid</option>
+        <option value="peptides">Peptides</option>
+        <option value="ceramides">Ceramides</option>
+        <option value="salicylic acid">Salicylic Acid</option>
+        <option value="zinc">Zinc</option>
+        <option value="bond repair">Bond Repair</option>
+      </select>
+    </div>
+
     <!-- Filter tabs -->
     <div class="filter-bar">
       <button class="filter-tab active" data-filter="all">All</button>
       <button class="filter-tab" data-filter="rotation">In Rotation</button>
       <button class="filter-tab" data-filter="want">Want to Try</button>
-      <button class="filter-tab" data-filter="retired">Retired</button>
+      <button class="filter-tab" data-filter="retired">Not for Me</button>
     </div>
 
     <!-- Product grid -->
@@ -74,7 +111,7 @@
         <select id="input-status">
           <option value="rotation">In Rotation</option>
           <option value="want">Want to Try</option>
-          <option value="retired">Retired</option>
+          <option value="retired">Not for Me</option>
         </select>
       </div>
 

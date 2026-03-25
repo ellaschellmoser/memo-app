@@ -7,7 +7,7 @@ function escHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
-const STATUS_LABELS = { rotation: 'In Rotation', retired: 'Retired', want: 'Want to Try' };
+const STATUS_LABELS = { rotation: 'In Rotation', retired: 'Not for Me', want: 'Want to Try' };
 const EMOJI_MAP     = { skincare:'🧴', makeup:'💄', haircare:'💆', bodycare:'🛁', fragrance:'🌸', tools:'🪞' };
 
 // ── Seed People & Their Shelves ────────────────────────
@@ -16,7 +16,7 @@ const ALL_PEOPLE = [
     id: 'sophiek',
     name: 'Sophie K.',
     handle: '@sophiek',
-    avatar: '🌿',
+    avatar: 'https://i.pravatar.cc/100?img=47',
     bio: 'Skincare obsessive. Dry skin type. Will try anything with ceramides.',
     type: 'friend',
     products: [
@@ -31,7 +31,7 @@ const ALL_PEOPLE = [
     id: 'miaderm',
     name: 'Mia Derm',
     handle: '@miaderm',
-    avatar: '✨',
+    avatar: 'https://i.pravatar.cc/100?img=32',
     bio: 'Board-certified derm. Evidence-based recommendations only. No fluff.',
     type: 'influencer',
     products: [
@@ -47,7 +47,7 @@ const ALL_PEOPLE = [
     id: 'rinat',
     name: 'Rina T.',
     handle: '@rinat',
-    avatar: '🌸',
+    avatar: 'https://i.pravatar.cc/100?img=49',
     bio: 'Makeup collector & skintellectual. Dewy skin & bold lip forever.',
     type: 'friend',
     products: [
@@ -62,7 +62,7 @@ const ALL_PEOPLE = [
     id: 'jaker',
     name: 'Jake R.',
     handle: '@jaker',
-    avatar: '🧴',
+    avatar: 'https://i.pravatar.cc/100?img=12',
     bio: 'Minimalist routine. 3 steps max. Sensitive combo skin.',
     type: 'friend',
     products: [
@@ -75,7 +75,7 @@ const ALL_PEOPLE = [
     id: 'lunav',
     name: 'Luna V.',
     handle: '@lunav',
-    avatar: '🌙',
+    avatar: 'https://i.pravatar.cc/100?img=20',
     bio: 'Clean beauty advocate. If I can\'t pronounce it, I research it.',
     type: 'influencer',
     products: [
@@ -124,7 +124,7 @@ function renderPeople() {
       <div class="person-card ${isActive ? 'person-card--active' : ''}"
            onclick="viewShelf('${person.id}')">
         <div class="person-card-top">
-          <div class="person-avatar">${person.avatar}</div>
+          <div class="person-avatar"><img src="${person.avatar}" alt="${escHtml(person.name)}"></div>
           <div class="person-meta">
             <div class="person-name">${escHtml(person.name)}</div>
             <div class="person-handle">${escHtml(person.handle)}</div>
@@ -154,7 +154,7 @@ function viewShelf(personId) {
   activePerson = person;
   viewerFilter = 'all';
 
-  document.getElementById('viewer-avatar').textContent = person.avatar;
+  document.getElementById('viewer-avatar').innerHTML = `<img src="${person.avatar}" alt="${escHtml(person.name)}">`;
   document.getElementById('viewer-name').textContent   = person.name;
   document.getElementById('viewer-handle').textContent = `${person.handle} · ${person.products.length} products`;
 

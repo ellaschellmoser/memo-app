@@ -9,9 +9,9 @@ const EMOJI_MAP = {
 };
 
 const STATUS_LABELS = {
-  rotation: 'In Rotation',
-  retired:  'Retired',
-  want:     'Want to Try',
+  rotation:    'In Rotation',
+  retired:     'Not for Me',
+  want:        'Want to Try',
 };
 
 // Seed data so the shelf isn't empty on first load
@@ -24,6 +24,9 @@ const SEED_PRODUCTS = [
     status: 'rotation',
     rating: 4,
     note: 'Great for pores and texture. Takes about 3 weeks to really notice a difference.',
+    imageUrl: 'images/the-ordinary-niacinamide.png',
+    imageFetched: true,
+    tags: ['niacinamide', 'zinc'],
   },
   {
     id: 2,
@@ -32,7 +35,10 @@ const SEED_PRODUCTS = [
     category: 'skincare',
     status: 'rotation',
     rating: 5,
-    note: 'Obsessed. Gives the glossy glass skin look I've been chasing for years.',
+    note: 'Obsessed. Gives the glossy glass skin look I\'ve been chasing for years.',
+    imageUrl: 'images/rhode-peptide-glazing-fluid.webp',
+    tags: ['peptides', 'hyaluronic acid'],
+    imageFetched: true,
   },
   {
     id: 3,
@@ -41,7 +47,9 @@ const SEED_PRODUCTS = [
     category: 'makeup',
     status: 'rotation',
     rating: 5,
-    note: 'A tiny dot goes a very, very long way. Best blush I've ever used.',
+    note: 'A tiny dot goes a very, very long way. Best blush I\'ve ever used.',
+    imageUrl: 'images/rare-beauty-soft-pinch-blush.png',
+    imageFetched: true,
   },
   {
     id: 4,
@@ -51,6 +59,9 @@ const SEED_PRODUCTS = [
     status: 'retired',
     rating: 3,
     note: 'It helped a lot at first but felt like it stopped working after a few months. May revisit.',
+    imageUrl: 'images/olaplex-no3.png',
+    tags: ['bond repair'],
+    imageFetched: true,
   },
   {
     id: 5,
@@ -60,6 +71,9 @@ const SEED_PRODUCTS = [
     status: 'want',
     rating: 0,
     note: 'Been on my list forever. Love the ingredients — niacinamide + hyaluronic.',
+    imageUrl: 'images/summer-fridays-jet-lag-mask.png',
+    tags: ['niacinamide', 'hyaluronic acid'],
+    imageFetched: true,
   },
   {
     id: 6,
@@ -69,17 +83,182 @@ const SEED_PRODUCTS = [
     status: 'rotation',
     rating: 4,
     note: 'Perfect for a no-makeup-makeup look. Shade 3 is a perfect match for me.',
+    imageUrl: 'images/charlotte-tilbury-flawless-filter.png',
+    imageFetched: true,
+  },
+  // In Rotation additions
+  {
+    id: 7,
+    brand: 'Laneige',
+    name: 'Lip Sleeping Mask',
+    category: 'bodycare',
+    status: 'rotation',
+    rating: 5,
+    note: 'Wake up with the softest lips every single morning. Berry scent is everything.',
+    imageUrl: 'images/laneige-lip-sleeping-mask.png',
+    imageFetched: true,
+  },
+  {
+    id: 8,
+    brand: 'NARS',
+    name: 'Sheer Glow Foundation',
+    category: 'makeup',
+    status: 'rotation',
+    rating: 4,
+    note: 'Buildable coverage without looking cakey. Syracuse is my holy grail shade.',
+    imageUrl: 'images/nars-sheer-glow-foundation.png',
+    imageFetched: true,
+  },
+  {
+    id: 9,
+    brand: 'Briogeo',
+    name: "Don't Despair, Repair! Deep Conditioning Mask",
+    category: 'haircare',
+    status: 'rotation',
+    rating: 4,
+    note: 'My hair feels like silk after every use. Leave it on overnight for best results.',
+    imageUrl: 'images/briogeo-dont-despair-repair.png',
+    tags: ['ceramides'],
+    imageFetched: true,
+  },
+  // Want to Try additions
+  {
+    id: 10,
+    brand: 'Drunk Elephant',
+    name: 'Protini Polypeptide Cream',
+    category: 'skincare',
+    status: 'want',
+    rating: 0,
+    note: 'Everyone raves about this. The peptide combo sounds incredible for barrier repair.',
+    imageUrl: 'images/drunk-elephant-protini.png',
+    tags: ['peptides', 'ceramides'],
+    imageFetched: true,
+  },
+  {
+    id: 11,
+    brand: 'Westman Atelier',
+    name: 'Vital Skin Foundation Stick',
+    category: 'makeup',
+    status: 'want',
+    rating: 0,
+    note: 'Seen it on so many "clean beauty" lists. The skin-like finish looks stunning.',
+    imageUrl: 'images/westman-atelier-foundation.png',
+    imageFetched: true,
+  },
+  {
+    id: 12,
+    brand: 'Sol de Janeiro',
+    name: 'Brazilian Bum Bum Cream',
+    category: 'bodycare',
+    status: 'want',
+    rating: 0,
+    note: 'The smell alone has me convinced. Waiting for a sale before committing.',
+    imageUrl: 'images/sol-de-janeiro-bum-bum.png',
+    imageFetched: true,
+  },
+  // Retired additions
+  {
+    id: 16,
+    brand: 'Sonsie',
+    name: 'Niacinamide Face Serum',
+    category: 'skincare',
+    status: 'retired',
+    rating: 1,
+    note: 'Broke me out after the first week. Shame because the texture is lovely.',
+    imageUrl: 'images/sonsie-super-serum.png',
+    tags: ['niacinamide'],
+    imageFetched: true,
+  },
+  {
+    id: 13,
+    brand: 'Mario Badescu',
+    name: 'Drying Lotion',
+    category: 'skincare',
+    status: 'retired',
+    rating: 2,
+    note: 'Did work on surface breakouts but way too drying for my skin. Left little dry patches.',
+    imageUrl: 'images/mario-badescu-drying-lotion.png',
+    tags: ['salicylic acid'],
+    imageFetched: true,
+  },
+  {
+    id: 14,
+    brand: 'Bumble and Bumble',
+    name: "Hairdresser's Invisible Oil",
+    category: 'haircare',
+    status: 'retired',
+    rating: 3,
+    note: 'Smells amazing but built up fast and made my roots look greasy by day two.',
+    imageUrl: 'images/bumble-hairdressers-oil.png',
+    imageFetched: true,
+  },
+  {
+    id: 15,
+    brand: 'Fenty Beauty',
+    name: 'Pro Filt\'r Instant Retouch Primer',
+    category: 'makeup',
+    status: 'retired',
+    rating: 2,
+    note: 'Pore-blurring effect was great but it pilled under my foundation. Not compatible.',
+    imageUrl: 'images/fenty-beauty-pro-filtr-primer.png',
+    imageFetched: true,
   },
 ];
 
 // ── State ─────────────────────────────────────────────
-let products = JSON.parse(localStorage.getItem('memo-products') || 'null') || [...SEED_PRODUCTS];
+let products = JSON.parse(localStorage.getItem('memo-products-v7') || 'null') || [...SEED_PRODUCTS];
+// Sync seed images into stored products (additions and removals)
+products.forEach(p => {
+  const seed = SEED_PRODUCTS.find(s => s.id === p.id);
+  if (!seed) return;
+  if (seed.imageUrl) {
+    p.imageUrl = seed.imageUrl;
+    p.imageFetched = true;
+  } else {
+    p.imageUrl = null;
+    p.imageFetched = false;
+  }
+});
 let nextId   = Math.max(0, ...products.map(p => p.id)) + 1;
-let activeFilter = 'all';
-let pendingRating = 0;
+let activeFilter     = 'all';
+let filterCategory   = '';
+let filterRating     = 0;
+let filterIngredient = '';
+let pendingRating    = 0;
 
 function save() {
-  localStorage.setItem('memo-products', JSON.stringify(products));
+  localStorage.setItem('memo-products-v7', JSON.stringify(products));
+}
+
+// ── Top 3 ─────────────────────────────────────────────
+function renderTop3() {
+  const grid = document.getElementById('top3-grid');
+  if (!grid) return;
+
+  const top3 = [...products]
+    .filter(p => p.rating > 0)
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 3);
+
+  grid.innerHTML = top3.map((p, i) => `
+    <div class="top3-card" onclick="location.href='product.html?id=${p.id}'">
+      <div class="top3-rank">${i + 1}</div>
+      <div class="top3-img">
+        ${p.imageUrl
+          ? `<img src="${escHtml(p.imageUrl)}" alt="${escHtml(p.brand)} ${escHtml(p.name)}"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          : ''}
+        <span class="card-emoji-fallback" style="${p.imageUrl ? 'display:none' : ''}">${EMOJI_MAP[p.category] || '✦'}</span>
+      </div>
+      <div class="top3-body">
+        <div class="card-brand">${escHtml(p.brand)}</div>
+        <div class="card-name">${escHtml(p.name)}</div>
+        <div class="stars">
+          ${[1,2,3,4,5].map(n => `<span class="star ${n <= p.rating ? 'filled' : ''}">★</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
 
 // ── Render ────────────────────────────────────────────
@@ -87,9 +266,10 @@ function renderGrid() {
   const grid = document.getElementById('product-grid');
   if (!grid) return;
 
-  const filtered = activeFilter === 'all'
-    ? products
-    : products.filter(p => p.status === activeFilter);
+  let filtered = activeFilter === 'all' ? products : products.filter(p => p.status === activeFilter);
+  if (filterCategory)   filtered = filtered.filter(p => p.category === filterCategory);
+  if (filterRating)     filtered = filtered.filter(p => p.rating >= filterRating);
+  if (filterIngredient) filtered = filtered.filter(p => (p.tags || []).includes(filterIngredient));
 
   // Update count
   const countEl = document.getElementById('product-count');
@@ -257,6 +437,15 @@ document.getElementById('input-name')?.addEventListener('keydown', e => {
   if (e.key === 'Enter') addProduct();
 });
 
+// ── Secondary filters ─────────────────────────────────
+function applySecondaryFilters() {
+  filterCategory   = document.getElementById('filter-category')?.value   || '';
+  filterRating     = parseInt(document.getElementById('filter-rating')?.value || '0');
+  filterIngredient = document.getElementById('filter-ingredient')?.value || '';
+  renderGrid();
+}
+
 // ── Init ──────────────────────────────────────────────
+renderTop3();
 renderGrid();
 products.forEach(p => { if (!p.imageFetched) fetchProductImage(p); });
