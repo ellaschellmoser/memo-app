@@ -91,6 +91,7 @@ const ALL_PEOPLE = [
 
 // ── State ─────────────────────────────────────────────
 let following    = JSON.parse(localStorage.getItem('memo-following') || '["sophiek","miaderm","rinat","jaker","lunav"]');
+let followers    = JSON.parse(localStorage.getItem('memo-followers') || '["sophiek","rinat","lunav"]');
 let activeFilter = 'all';
 let activePerson = null;
 let viewerFilter = 'all';
@@ -102,17 +103,19 @@ function saveFollowing() {
 // ── Render People Grid ────────────────────────────────
 function renderPeople() {
   const grid = document.getElementById('people-grid');
-  const list = ALL_PEOPLE.filter(p =>
-    following.includes(p.id) &&
-    (activeFilter === 'all' || p.type === activeFilter)
-  );
+  const list = ALL_PEOPLE.filter(p => {
+    if (activeFilter === 'following') return following.includes(p.id);
+    if (activeFilter === 'followers') return followers.includes(p.id);
+    // 'all': union of following and followers
+    return following.includes(p.id) || followers.includes(p.id);
+  });
 
   if (list.length === 0) {
     grid.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
         <div class="empty-icon">♡</div>
         <h3>Nobody here yet</h3>
-        <p>Follow friends or influencers to see their shelves.</p>
+        <p>Follow someone to see their shelf.</p>
         <button class="btn btn-primary" onclick="openFollowModal()">+ Follow Someone</button>
       </div>`;
     return;
@@ -129,7 +132,6 @@ function renderPeople() {
             <div class="person-name">${escHtml(person.name)}</div>
             <div class="person-handle">${escHtml(person.handle)}</div>
           </div>
-          <span class="person-type-badge person-type-${person.type}">${person.type === 'influencer' ? '✦ Influencer' : '♡ Friend'}</span>
         </div>
         <p class="person-bio">${escHtml(person.bio)}</p>
         <div class="person-footer">

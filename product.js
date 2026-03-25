@@ -65,96 +65,110 @@ function renderDetail(p) {
       <span class="community-count">${totalCount} rating${totalCount !== 1 ? 's' : ''}</span>
     </div>` : '';
 
-  const reviewsHtml = commRatings.length ? `
-    <div class="reviews-section">
-      <h3 class="reviews-title">What friends think</h3>
-      <div class="reviews-grid">
-        ${commRatings.map(r => `
-          <div class="review-card">
-            <div class="review-header">
-              <img class="review-avatar" src="${escHtml(r.avatar)}" alt="${escHtml(r.name)}">
-              <div class="review-meta">
-                <div class="review-name">${escHtml(r.name)}</div>
-                <div class="review-handle">${escHtml(r.handle)}</div>
-              </div>
-              <div class="review-stars">
-                ${[1,2,3,4,5].map(n =>
-                  `<span class="star ${n <= r.rating ? 'filled' : ''}">★</span>`
-                ).join('')}
-              </div>
-            </div>
-            <p class="review-comment">"${escHtml(r.comment)}"</p>
-          </div>`
-        ).join('')}
-      </div>
-    </div>` : '';
+  const following = JSON.parse(localStorage.getItem('memo-following') || '[]');
+  const friendHandles = new Set(following.map(id => '@' + id));
 
-  card.innerHTML = `
-    <div class="product-layout">
+  const friendReviews = commRatings.filter(r => friendHandles.has(r.handle));
+  const otherReviews  = commRatings.filter(r => !friendHandles.has(r.handle));
 
-      <div class="product-img-col">
-        <div class="product-detail-img">
-          ${imgHtml}
-          <span class="card-emoji-fallback" style="${emojiStyle}">${EMOJI_MAP[p.category] || '✦'}</span>
-        </div>
-      </div>
-
-      <div class="product-info-col">
-        <div class="detail-brand">${escHtml(p.brand)}</div>
-        <div class="product-title">${escHtml(p.name)}</div>
-        <span class="category-badge">${CATEGORY_LABELS[p.category] || p.category}</span>
-
-        ${p.description ? `<p class="product-description">${escHtml(p.description)}</p>` : ''}
-
-        ${communityHtml}
-
-        <div class="form-group">
-          <label>Your Rating</label>
-          <div class="detail-stars" id="detail-stars">
+  function reviewRow(r) {
+    return `
+      <div class="review-row">
+        <div class="review-header">
+          <img class="review-avatar" src="${escHtml(r.avatar)}" alt="${escHtml(r.name)}">
+          <div class="review-meta">
+            <div class="review-name">${escHtml(r.name)}</div>
+            <div class="review-handle">${escHtml(r.handle)}</div>
+          </div>
+          <div class="review-stars">
             ${[1,2,3,4,5].map(n =>
-              `<span class="star ${n <= detailRating ? 'filled' : ''}" data-val="${n}">★</span>`
+              `<span class="star ${n <= r.rating ? 'filled' : ''}">★</span>`
             ).join('')}
           </div>
         </div>
+        <p class="review-comment">"${escHtml(r.comment)}"</p>
+      </div>`;
+  }
 
-        <div class="form-group">
-          <label>Status</label>
-          <select id="detail-status">
-            <option value="rotation" ${p.status === 'rotation' ? 'selected' : ''}>In Rotation</option>
-            <option value="want"     ${p.status === 'want'     ? 'selected' : ''}>Want to Try</option>
-            <option value="retired"  ${p.status === 'retired'  ? 'selected' : ''}>Not for Me</option>
-          </select>
+  const reviewsHtml = commRatings.length ? `
+    <div class="reviews-section">
+      <h3 class="reviews-title">Ratings &amp; Reviews</h3>
+      ${friendReviews.length ? `
+        <p class="reviews-sublabel">Friends</p>
+        <div class="reviews-list">${friendReviews.map(reviewRow).join('')}</div>
+      ` : ''}
+      ${otherReviews.length ? `
+        <div class="reviews-list">${otherReviews.map(reviewRow).join('')}</div>
+      ` : ''}
+    </div>` : '';
+
+  card.innerHTML = `
+    <div class="product-layout-stacked">
+
+      <!-- Image hero -->
+      <div class="product-detail-img-hero">
+        ${imgHtml}
+        <span class="card-emoji-fallback card-emoji-fallback--hero" style="${emojiStyle}">${EMOJI_MAP[p.category] || '✦'}</span>
+        <a href="#" class="btn btn-primary shop-now-btn" onclick="return false;">Shop Now →</a>
+      </div>
+
+      <!-- Header row: brand/name -->
+      <div class="product-detail-header">
+        <div class="detail-brand">${escHtml(p.brand)}</div>
+        <div class="product-title">${escHtml(p.name)}</div>
+        <span class="category-badge">${CATEGORY_LABELS[p.category] || p.category}</span>
+      </div>
+
+      ${p.description ? `<p class="product-description">${escHtml(p.description)}</p>` : ''}
+
+      ${communityHtml}
+
+      <div class="form-group">
+        <label>Your Rating</label>
+        <div class="detail-stars" id="detail-stars">
+          ${[1,2,3,4,5].map(n =>
+            `<span class="star ${n <= detailRating ? 'filled' : ''}" data-val="${n}">★</span>`
+          ).join('')}
         </div>
+      </div>
 
-        <div class="form-group">
-          <label>Notes</label>
-          <textarea id="detail-note" rows="5">${escHtml(p.note)}</textarea>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="detail-status">
+          <option value="rotation" ${p.status === 'rotation' ? 'selected' : ''}>In Rotation</option>
+          <option value="want"     ${p.status === 'want'     ? 'selected' : ''}>Want to Try</option>
+          <option value="retired"  ${p.status === 'retired'  ? 'selected' : ''}>Not for Me</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea id="detail-note" rows="5">${escHtml(p.note)}</textarea>
+      </div>
+
+      <div class="form-group ingredients-group">
+        <label>Ingredients</label>
+        <div class="ingredients-pills">
+          ${renderIngredientPills(p.ingredientsList || '')}
         </div>
+      </div>
 
-        <div class="form-group ingredients-group">
-          <label>Ingredients</label>
-          <div class="ingredients-pills">
-            ${renderIngredientPills(p.ingredientsList || '')}
-          </div>
+      <div class="form-group">
+        <label>Pin to My Current Favorites</label>
+        <div class="fav-slot-picker" id="fav-slot-picker">
+          <button type="button" class="fav-slot-btn ${!p.favoriteSlot ? 'active' : ''}" data-slot="0">None</button>
+          <button type="button" class="fav-slot-btn ${p.favoriteSlot === 1 ? 'active' : ''}" data-slot="1"># 1</button>
+          <button type="button" class="fav-slot-btn ${p.favoriteSlot === 2 ? 'active' : ''}" data-slot="2"># 2</button>
+          <button type="button" class="fav-slot-btn ${p.favoriteSlot === 3 ? 'active' : ''}" data-slot="3"># 3</button>
         </div>
+      </div>
 
-        <div class="form-group">
-          <label>Pin to My Current Favorites</label>
-          <div class="fav-slot-picker" id="fav-slot-picker">
-            <button type="button" class="fav-slot-btn ${!p.favoriteSlot ? 'active' : ''}" data-slot="0">None</button>
-            <button type="button" class="fav-slot-btn ${p.favoriteSlot === 1 ? 'active' : ''}" data-slot="1">★ 1</button>
-            <button type="button" class="fav-slot-btn ${p.favoriteSlot === 2 ? 'active' : ''}" data-slot="2">★ 2</button>
-            <button type="button" class="fav-slot-btn ${p.favoriteSlot === 3 ? 'active' : ''}" data-slot="3">★ 3</button>
-          </div>
-        </div>
-
-        <div class="detail-actions">
-          <button class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
-          <span class="save-feedback" id="save-feedback">Saved!</span>
-          <div class="delete-zone">
-            <button class="btn btn-ghost" id="cancel-delete" style="display:none" onclick="cancelDelete()">Cancel</button>
-            <button class="btn-danger btn" id="delete-btn" onclick="confirmDelete()">Delete</button>
-          </div>
+      <div class="detail-actions">
+        <button class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
+        <span class="save-feedback" id="save-feedback">Saved!</span>
+        <div class="delete-zone">
+          <button class="btn btn-ghost" id="cancel-delete" style="display:none" onclick="cancelDelete()">Cancel</button>
+          <button class="btn-danger btn" id="delete-btn" onclick="confirmDelete()">Delete</button>
         </div>
       </div>
 

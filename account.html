@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Account — Memo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shelf.html">My Shelf</a>
+      <a href="feed.html">My Feed</a>
+      <a href="articles.html">Articles</a>
+      <a href="account.html" class="active">My Account</a>
+    </div>
+  </nav>
+
+  <main class="account-page">
+
+    <!-- Profile card -->
+    <div class="account-profile-card">
+      <div class="account-avatar">🌸</div>
+      <div class="account-profile-info">
+        <h1 class="account-name" id="account-name">Your Name</h1>
+        <p class="account-handle" id="account-handle">@handle</p>
+        <p class="account-bio" id="account-bio">Beauty lover. Building my shelf one product at a time.</p>
+      </div>
+      <button class="btn btn-outline" onclick="openEditProfile()">Edit Profile</button>
+    </div>
+
+    <!-- Stats row -->
+    <div class="account-stats">
+      <div class="account-stat">
+        <div class="account-stat-num" id="stat-products">—</div>
+        <div class="account-stat-label">Products</div>
+      </div>
+      <div class="account-stat">
+        <div class="account-stat-num" id="stat-rated">—</div>
+        <div class="account-stat-label">Rated</div>
+      </div>
+      <div class="account-stat">
+        <div class="account-stat-num" id="stat-rotation">—</div>
+        <div class="account-stat-label">In Rotation</div>
+      </div>
+      <div class="account-stat">
+        <div class="account-stat-num" id="stat-want">—</div>
+        <div class="account-stat-label">Want to Try</div>
+      </div>
+    </div>
+
+    <!-- Sections -->
+    <div class="account-sections">
+
+      <section class="account-section">
+        <h2>Friends &amp; Following</h2>
+        <p>See who you follow and who follows you.</p>
+        <a href="friends.html" class="btn btn-outline" style="margin-top:.75rem;display:inline-block">Go to Friends →</a>
+      </section>
+
+      <section class="account-section">
+        <h2>Preferences</h2>
+        <div class="pref-row">
+          <label class="pref-label">Skin type</label>
+          <select class="pref-select" id="pref-skin">
+            <option value="">— select —</option>
+            <option>Dry</option>
+            <option>Oily</option>
+            <option>Combination</option>
+            <option>Normal</option>
+            <option>Sensitive</option>
+          </select>
+        </div>
+        <div class="pref-row">
+          <label class="pref-label">Skin concerns</label>
+          <input class="pref-input" type="text" id="pref-concerns" placeholder="e.g. acne, pigmentation, dryness" />
+        </div>
+        <div class="pref-row">
+          <label class="pref-label">Favourite categories</label>
+          <input class="pref-input" type="text" id="pref-categories" placeholder="e.g. skincare, makeup" />
+        </div>
+        <button class="btn btn-primary" style="margin-top:1rem" onclick="savePrefs()">Save Preferences</button>
+        <span class="save-confirm" id="prefs-saved" style="display:none">Saved ✓</span>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal-overlay" id="edit-profile-modal">
+    <div class="modal">
+      <h2>Edit Profile</h2>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="edit-name" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label>Handle</label>
+        <input type="text" id="edit-handle" placeholder="@handle" />
+      </div>
+      <div class="form-group">
+        <label>Bio</label>
+        <textarea id="edit-bio" rows="3" placeholder="A short bio…" style="resize:vertical"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeEditProfile()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+
+  <script src="account.js"></script>
+</body>
+</html>

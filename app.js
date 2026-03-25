@@ -33,7 +33,7 @@ const SEED_PRODUCTS = [
     imageFetched: true,
     tags: ['niacinamide', 'zinc'],
     description: 'A water-based serum that reduces the appearance of blemishes and congestion. Niacinamide (Vitamin B3) at 10% works synergistically with Zinc PCA to visibly minimise shine and improve skin texture over time.',
-    ingredientsList: 'Aqua (Water), Niacinamide, Pentylene Glycol, Zinc PCA, Dimethyl Isosorbide, Tamarindus Indica Seed Gum, Xanthan Gum, Isoceteth-20, Ethoxydiglycol, Phenoxyethanol, Chlorphenesin',
+    ingredientsList: 'Water, Niacinamide, Pentylene Glycol, Zinc PCA, Dimethyl Isosorbide, Tamarindus Indica Seed Gum, Xanthan Gum, Isoceteth-20, Ethoxydiglycol, Phenoxyethanol, Chlorphenesin',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Holy grail for oily skin. Cheap, effective, no fuss — I always have a backup.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 4, comment: 'Really good for texture and pores. I layer it under SPF every morning.' },
@@ -89,7 +89,7 @@ const SEED_PRODUCTS = [
     tags: ['bond repair'],
     imageFetched: true,
     description: 'An at-home bond-building treatment that reduces breakage and strengthens hair. The patented Bis-Aminopropyl Diglycol Dimaleate technology reconnects broken disulfide bonds for visibly healthier, stronger strands.',
-    ingredientsList: 'Water (Aqua), Bis-Aminopropyl Diglycol Dimaleate, Propylene Glycol, Cetearyl Alcohol, Behentrimonium Methosulfate, Cetyl Alcohol, Etidronic Acid, Trisodium Ethylenediamine Disuccinate, Phenoxyethanol, Cetrimonium Chloride',
+    ingredientsList: 'Water, Bis-Aminopropyl Diglycol Dimaleate, Propylene Glycol, Cetearyl Alcohol, Behentrimonium Methosulfate, Cetyl Alcohol, Etidronic Acid, Trisodium Ethylenediamine Disuccinate, Phenoxyethanol, Cetrimonium Chloride',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 4, comment: 'Transformed my bleached hair. I use it weekly and the difference is real.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 3, comment: 'Good for the first few months but I didn\'t notice much after that.' },

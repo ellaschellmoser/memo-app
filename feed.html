@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Feed — Memo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shelf.html">My Shelf</a>
+      <a href="feed.html" class="active">My Feed</a>
+      <a href="articles.html">Articles</a>
+      <a href="account.html">My Account</a>
+    </div>
+  </nav>
+
+  <div class="feed-layout">
+
+    <!-- Feed -->
+    <main class="feed-main" id="feed-main"></main>
+
+    <!-- Sidebar -->
+    <aside class="feed-sidebar">
+      <div class="sidebar-section">
+        <p class="section-label">Products trending this week</p>
+        <ul class="trending-list">
+          <li><span class="trending-rank">1</span> The Ordinary Niacinamide 10% + Zinc</li>
+          <li><span class="trending-rank">2</span> Rhode Peptide Lip Treatment</li>
+          <li><span class="trending-rank">3</span> Charlotte Tilbury Flawless Filter</li>
+          <li><span class="trending-rank">4</span> Laneige Lip Sleeping Mask</li>
+          <li><span class="trending-rank">5</span> EltaMD UV Clear SPF 46</li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <p class="section-label">Suggested</p>
+        <div class="suggested-list" id="suggested-list"></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="feed.js"></script>
+</body>
+</html>

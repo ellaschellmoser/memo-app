@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Articles — Memo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shelf.html">My Shelf</a>
+      <a href="feed.html">My Feed</a>
+      <a href="articles.html" class="active">Articles</a>
+      <a href="account.html">My Account</a>
+    </div>
+  </nav>
+
+  <main class="articles-page">
+
+    <div class="articles-header">
+      <h1>Articles</h1>
+      <p>Beauty science, skincare deep-dives, trend reports, and more.</p>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="filter-bar articles-filter-bar">
+      <button class="filter-tab active" data-atag="all">All</button>
+      <button class="filter-tab" data-atag="skincare">Skincare</button>
+      <button class="filter-tab" data-atag="trends">Trends</button>
+      <button class="filter-tab" data-atag="science">Science</button>
+      <button class="filter-tab" data-atag="haircare">Haircare</button>
+      <button class="filter-tab" data-atag="makeup">Makeup</button>
+    </div>
+
+    <!-- Featured article -->
+    <div class="article-featured" id="article-featured"></div>
+
+    <!-- Article grid -->
+    <div class="article-grid" id="article-grid"></div>
+
+  </main>
+
+  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+
+  <script src="articles.js"></script>
+</body>
+</html>

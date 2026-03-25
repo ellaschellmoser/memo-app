@@ -14,8 +14,9 @@
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shelf.html" class="active">My Shelf</a>
-      <a href="friends.html">Friends</a>
-      <button class="btn btn-primary" onclick="openModal()">+ Add Product</button>
+      <a href="feed.html">My Feed</a>
+      <a href="articles.html">Articles</a>
+      <a href="account.html">My Account</a>
     </div>
   </nav>
 
@@ -38,6 +39,7 @@
         <h1>My Shelf</h1>
         <p id="product-count">0 products</p>
       </div>
+      <button class="btn btn-primary" onclick="openModal()">+ Add Product</button>
     </div>
 
     <!-- Filter tabs -->
@@ -61,9 +63,11 @@
       </select>
       <select id="filter-rating" onchange="applySecondaryFilters()">
         <option value="0">All Ratings</option>
-        <option value="5">★★★★★ only</option>
-        <option value="4">★★★★ & up</option>
-        <option value="3">★★★ & up</option>
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★</option>
+        <option value="3">★★★</option>
+        <option value="2">★★</option>
+        <option value="1">★</option>
       </select>
       <select id="filter-ingredient" onchange="applySecondaryFilters()">
         <option value="">All Ingredients</option>
