@@ -33,6 +33,7 @@ const SEED_PRODUCTS = [
     imageFetched: true,
     tags: ['niacinamide', 'zinc'],
     description: 'A water-based serum that reduces the appearance of blemishes and congestion. Niacinamide (Vitamin B3) at 10% works synergistically with Zinc PCA to visibly minimise shine and improve skin texture over time.',
+    ingredientsList: 'Aqua (Water), Niacinamide, Pentylene Glycol, Zinc PCA, Dimethyl Isosorbide, Tamarindus Indica Seed Gum, Xanthan Gum, Isoceteth-20, Ethoxydiglycol, Phenoxyethanol, Chlorphenesin',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Holy grail for oily skin. Cheap, effective, no fuss — I always have a backup.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 4, comment: 'Really good for texture and pores. I layer it under SPF every morning.' },
@@ -51,6 +52,7 @@ const SEED_PRODUCTS = [
     tags: ['peptides', 'hyaluronic acid'],
     imageFetched: true,
     description: 'A lightweight, leave-on serum that plumps, smooths, and adds a glossy glow to the skin. Formulated with a blend of peptides and hyaluronic acid to support the skin barrier and lock in lasting moisture.',
+    ingredientsList: 'Water, Glycerin, Butylene Glycol, Niacinamide, Sodium Hyaluronate, Polyglutamic Acid, Acetyl Hexapeptide-3, Palmitoyl Tripeptide-1, Palmitoyl Tetrapeptide-7, Tremella Fuciformis Sporocarp Extract, Allantoin, Panthenol, Betaine, Carbomer, Sodium Hydroxide, Caprylyl Glycol, Phenoxyethanol, Ethylhexylglycerin',
     communityRatings: [
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The glaze effect is unmatched. I wear it alone on no-makeup days.' },
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Worth every penny. Skin looks so dewy and plump.' },
@@ -68,6 +70,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/rare-beauty-soft-pinch-blush.png',
     imageFetched: true,
     description: 'A weightless liquid blush that blends seamlessly for a natural, lived-in flush. One small drop delivers buildable, long-wearing colour that never looks cakey or overdone.',
+    ingredientsList: 'Water, Glycerin, Dimethicone, Cyclopentasiloxane, Butylene Glycol, PEG-10 Dimethicone, Trimethylsiloxysilicate, Niacinamide, Sodium Hyaluronate, Camellia Sinensis Leaf Extract, Tocopheryl Acetate, Phenoxyethanol, Caprylyl Glycol',
     communityRatings: [
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'Use the tiniest amount — seriously. Stunning payoff and stays all day.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 4, comment: 'Beautiful flush on the cheeks. Takes a second to blend but totally worth it.' },
@@ -86,6 +89,7 @@ const SEED_PRODUCTS = [
     tags: ['bond repair'],
     imageFetched: true,
     description: 'An at-home bond-building treatment that reduces breakage and strengthens hair. The patented Bis-Aminopropyl Diglycol Dimaleate technology reconnects broken disulfide bonds for visibly healthier, stronger strands.',
+    ingredientsList: 'Water (Aqua), Bis-Aminopropyl Diglycol Dimaleate, Propylene Glycol, Cetearyl Alcohol, Behentrimonium Methosulfate, Cetyl Alcohol, Etidronic Acid, Trisodium Ethylenediamine Disuccinate, Phenoxyethanol, Cetrimonium Chloride',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 4, comment: 'Transformed my bleached hair. I use it weekly and the difference is real.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 3, comment: 'Good for the first few months but I didn\'t notice much after that.' },
@@ -104,6 +108,7 @@ const SEED_PRODUCTS = [
     tags: ['niacinamide', 'hyaluronic acid'],
     imageFetched: true,
     description: 'A multi-use mask that soothes, moisturises, and brightens dull, tired skin. Wear it as an overnight mask, a daily moisturiser, or a primer under makeup — all three work beautifully.',
+    ingredientsList: 'Water, Glycerin, Niacinamide, Squalane, Sodium Hyaluronate, Caprylic/Capric Triglyceride, Panthenol, Sodium PCA, Allantoin, Rosa Canina Fruit Oil, Ceramide NP, Ceramide AP, Ceramide EOP, Cholesterol, Phytosphingosine, Sodium Lauroyl Lactylate, Xanthan Gum, Carbomer, Sodium Hydroxide, Phenoxyethanol, Ethylhexylglycerin',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'I use this every single night. Skin looks incredible in the morning.' },
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 4, comment: 'Great texture and hydration. A bit pricey but you don\'t need much.' },
@@ -121,6 +126,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/charlotte-tilbury-flawless-filter.png',
     imageFetched: true,
     description: 'A complexion booster, primer, and highlighter in one. The feather-light formula blurs imperfections and adds a naturally luminous, skin-like glow — wear it alone or layered under foundation.',
+    ingredientsList: 'Cyclopentasiloxane, Water, Dimethicone, Butylene Glycol, PEG-9 Polydimethylsiloxyethyl Dimethicone, Trimethylsiloxysilicate, Glycerin, Phenyl Trimethicone, Silica, Disteardimonium Hectorite, Dimethicone/Vinyl Dimethicone Crosspolymer, Propylene Carbonate, Sodium Hyaluronate, Tocopheryl Acetate, Niacinamide, Camellia Sinensis Leaf Extract, Phenoxyethanol, Caprylyl Glycol',
     communityRatings: [
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The best "your-skin-but-better" product I\'ve ever tried. Always gets compliments.' },
       { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 4, comment: 'Surprisingly good for men too. Just a little bit for a polished look.' },
@@ -139,6 +145,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/laneige-lip-sleeping-mask.png',
     imageFetched: true,
     description: 'An overnight lip mask with Moisture Wrap technology that deeply hydrates and softens lips while you sleep. Vitamin C and antioxidants restore the lip\'s natural moisture balance for noticeably softer lips by morning.',
+    ingredientsList: 'Hydrogenated Polyisobutene, Polybutene, Microcrystalline Wax, Petrolatum, Diisostearyl Malate, Ethylhexyl Palmitate, Caprylic/Capric Triglyceride, Synthetic Wax, Cetyl Ethylhexanoate, Cyclopentasiloxane, Candelilla Cera, Dimethicone, Butylene Glycol, Ascorbyl Glucoside, Tocopheryl Acetate, Adenosine, Panthenol, Sodium Hyaluronate, Rubus Idaeus Fruit Extract, Vaccinium Angustifolium Fruit Extract, Rubus Fruticosus Fruit Extract',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'A cult product for a reason. I\'ve repurchased this more times than I can count.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 5, comment: 'My lips have never been softer. The berry scent makes it feel like a real treat.' },
@@ -156,6 +163,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/nars-sheer-glow-foundation.png',
     imageFetched: true,
     description: 'A medium-coverage foundation with a natural satin finish that leaves skin looking luminous and healthy. Enriched with hyaluronic acid and antioxidants for comfortable, buildable wear that lasts up to 16 hours.',
+    ingredientsList: 'Water, Dimethicone, Trimethylsiloxysilicate, Glycerin, Butylene Glycol, Silica, PEG-10 Dimethicone, Dimethicone/Vinyl Dimethicone Crosspolymer, Aluminum Hydroxide, Sodium Chloride, Sodium Hyaluronate, Tocopheryl Acetate, Niacinamide, Rosa Canina Fruit Extract, Phenoxyethanol, Caprylyl Glycol',
     communityRatings: [
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 4, comment: 'One of my all-time favourites. The finish is unmatched for a natural look.' },
       { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 3, comment: 'Nice finish but oxidises slightly on my skin tone by midday.' },
@@ -174,6 +182,7 @@ const SEED_PRODUCTS = [
     tags: ['ceramides'],
     imageFetched: true,
     description: 'An intensive repair mask with B-vitamins, rosehip oil, algae extract, and ceramides that restores moisture and strengthens damaged hair. Vegan, cruelty-free, and safe for colour-treated hair.',
+    ingredientsList: 'Water, Cetearyl Alcohol, Behentrimonium Methosulfate, Glycerin, Rosa Canina Fruit Oil, Algae Extract, Panthenol, Niacinamide, Biotin, Ceramide NP, Arginine, Helianthus Annuus Seed Oil, Persea Gratissima Oil, Prunus Amygdalus Dulcis Oil, Phenoxyethanol, Ethylhexylglycerin',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Absolute lifesaver for damaged hair. Leave it on for 30 mins and your hair looks brand new.' },
       { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 4, comment: 'Smells gorgeous and my curls are so much more defined after every use.' },
@@ -193,6 +202,7 @@ const SEED_PRODUCTS = [
     tags: ['peptides', 'ceramides'],
     imageFetched: true,
     description: 'A protein-rich moisturiser formulated with signal peptides, growth factors, and amino acids to improve firmness, texture, and overall skin health. Lightweight enough for AM and PM use on all skin types.',
+    ingredientsList: 'Water, Dicaprylyl Carbonate, Butylene Glycol, Glycerin, Squalane, Cetearyl Alcohol, Palmitoyl Tripeptide-1, Palmitoyl Tetrapeptide-7, Palmitoyl Tripeptide-38, SH-Oligopeptide-1, SH-Polypeptide-1, SH-Polypeptide-9, SH-Polypeptide-11, Sodium Hyaluronate, Ceramide NP, Lecithin, Cholesterol, Phytosphingosine, Sodium Lauroyl Lactylate, Allantoin, Panthenol, Crambe Abyssinica Seed Oil, Pygeum Africanum Bark Extract, Phenoxyethanol, Ethylhexylglycerin',
     communityRatings: [
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The best moisturiser I\'ve ever used. Skin looks genuinely plumper within a week.' },
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Worth the splurge. My skin barrier has never felt this healthy.' },
@@ -211,6 +221,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/westman-atelier-foundation.png',
     imageFetched: true,
     description: 'A skin-improving foundation stick with buildable medium-to-full coverage and a natural, lit-from-within finish. Formulated with squalane and hyaluronic acid to nourish skin throughout the day.',
+    ingredientsList: 'Dimethicone, Cyclopentasiloxane, Isododecane, Trimethylsiloxysilicate, Polyglyceryl-4 Isostearate, Cetyl PEG/PPG-10/1 Dimethicone, Hexyl Laurate, Squalane, Sodium Hyaluronate, Tocopherol, Rosmarinus Officinalis Leaf Extract, Glycine Soja Oil, Phenoxyethanol, Caprylyl Glycol',
     communityRatings: [
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The most skin-like coverage I\'ve ever found. Looks like your skin, perfected.' },
       { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 5, comment: 'Worth every cent. Clean formula, beautiful finish, and it doesn\'t budge.' },
@@ -227,6 +238,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/sol-de-janeiro-bum-bum.png',
     imageFetched: true,
     description: 'A fast-absorbing, whipped body cream that leaves skin incredibly soft and scented with the iconic pistachio-caramel Cheirosa 62 fragrance. Guaraná and caffeine visibly firm and smooth skin with regular use.',
+    ingredientsList: 'Water, Glycerin, Caprylic/Capric Triglyceride, Cetearyl Alcohol, Behentrimonium Methosulfate, Dimethicone, Theobroma Grandiflorum Seed Butter, Paullinia Cupana Seed Extract, Euterpe Oleracea Fruit Oil, Cocos Nucifera Oil, Coffea Arabica Seed Extract, Sodium Hyaluronate, Tocopheryl Acetate, Fragrance, Phenoxyethanol, Caprylyl Glycol',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 4, comment: 'The smell is absolutely addictive. Absorbs fast and skin feels silky all day.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 5, comment: 'I get compliments on how my skin smells every time I wear this. Pure happiness.' },
@@ -246,6 +258,7 @@ const SEED_PRODUCTS = [
     tags: ['niacinamide'],
     imageFetched: true,
     description: 'A lightweight, fragrance-free serum with 10% niacinamide designed to minimise pores and improve skin clarity. Formulated without alcohol for sensitive skin compatibility.',
+    ingredientsList: 'Water, Niacinamide, Glycerin, Butylene Glycol, Pentylene Glycol, Sodium Hyaluronate, Zinc PCA, Allantoin, Panthenol, Adenosine, Xanthan Gum, Phenoxyethanol, Ethylhexylglycerin',
     communityRatings: [
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 2, comment: 'Purging was intense and never really calmed down for me. Switched back to The Ordinary.' },
       { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 3, comment: 'Decent results for me but nothing special compared to other niacinamides.' },
@@ -263,6 +276,7 @@ const SEED_PRODUCTS = [
     tags: ['salicylic acid'],
     imageFetched: true,
     description: 'A cult spot treatment formulated with salicylic acid, sulfur, and calamine to dry out active blemishes overnight. Apply directly onto spots with a cotton bud — do not shake the bottle.',
+    ingredientsList: 'SD Alcohol 40-B, Water, Zinc Oxide, Talc, Camphor, Sulfur, Salicylic Acid, Calamine, Resorcinol',
     communityRatings: [
       { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 3, comment: 'Does work on whiteheads but left dry patches around the spot. Use sparingly.' },
       { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 2, comment: 'Overdried my skin every time. Moved on to gentler spot treatments.' },
@@ -280,6 +294,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/bumble-hairdressers-oil.png',
     imageFetched: true,
     description: 'A lightweight blend of six oils — argan, coconut, maize, sweet almond, grape seed, and avocado — that tames frizz, adds shine, and protects against heat styling. Apply sparingly to damp or dry hair.',
+    ingredientsList: 'Cyclopentasiloxane, Dimethicone, Argania Spinosa Kernel Oil, Cocos Nucifera Oil, Zea Mays Oil, Prunus Amygdalus Dulcis Oil, Vitis Vinifera Seed Oil, Persea Gratissima Oil, Tocopheryl Acetate, Camellia Sinensis Leaf Extract, Panthenol, Fragrance',
     communityRatings: [
       { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 4, comment: 'Amazing for dry, thick hair. Smells incredible and controls frizz beautifully.' },
       { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 2, comment: 'Too heavy for fine hair. Roots looked greasy within hours.' },
@@ -297,6 +312,7 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/fenty-beauty-pro-filtr-primer.png',
     imageFetched: true,
     description: 'A pore-minimizing, matte-finish primer that blurs imperfections and extends foundation wear. The lightweight silicone formula creates a smooth canvas and controls excess shine throughout the day.',
+    ingredientsList: 'Cyclopentasiloxane, Dimethicone, Water, Dimethicone/Vinyl Dimethicone Crosspolymer, Dimethicone Crosspolymer, Isododecane, PEG-10 Dimethicone, Silica, Niacinamide, Sodium Hyaluronate, Tocopheryl Acetate, Aloe Barbadensis Leaf Juice, Camellia Sinensis Leaf Extract, Phenoxyethanol, Caprylyl Glycol',
     communityRatings: [
       { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 3, comment: 'Good pore-blurring effect but needs to be paired with the right foundation.' },
       { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 3, comment: 'Pilling was an issue for me too. Great worn alone though.' },
@@ -320,6 +336,7 @@ products.forEach(p => {
   }
   p.description      = seed.description      || null;
   p.communityRatings = seed.communityRatings || [];
+  if (!p.ingredientsList) p.ingredientsList = seed.ingredientsList || '';
 });
 let nextId   = Math.max(0, ...products.map(p => p.id)) + 1;
 let activeFilter     = 'all';
