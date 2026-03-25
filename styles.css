@@ -674,6 +674,73 @@ nav {
 
 .form-group textarea { resize: vertical; min-height: 80px; }
 
+.label-optional { font-weight: normal; color: var(--muted); font-size: .8rem; }
+
+/* Image input tabs */
+.img-input-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: .5rem;
+  margin-top: .25rem;
+}
+.img-tab {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: .75rem;
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+}
+.img-tab.active {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: var(--white);
+}
+.img-tab:not(.active):hover { border-color: var(--rose); color: var(--rose); }
+
+/* File upload button */
+.file-upload-label {
+  display: inline-block;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: .85rem;
+  padding: .45rem .9rem;
+  border-radius: 8px;
+  border: 1px dashed var(--border);
+  background: var(--blush);
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-upload-label:hover { border-color: var(--rose); color: var(--rose-dk); }
+#input-image-file { display: none; }
+
+/* Image preview */
+#image-preview {
+  margin-top: .6rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--blush);
+  width: 100%;
+  max-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#image-preview img {
+  max-width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+  display: block;
+}
+
 .modal-stars { display: flex; gap: 6px; margin-top: .2rem; }
 .modal-stars .star { font-size: 1.5rem; cursor: pointer; }
 
@@ -964,6 +1031,28 @@ footer {
   }
   .product-img-col { position: static; }
   .product-detail-card { padding: 1.25rem; }
+
+  /* Top-3 favourites: stack to 1 column */
+  .top3-section { padding: 1.5rem 1rem; }
+  .top3-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Shelf product grid: 1 column */
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Shelf page padding */
+  .shelf-page { padding: 1.5rem 1rem 3rem; }
+
+  /* Secondary filters: wrap + full-width selects */
+  .secondary-filters {
+    flex-wrap: wrap;
+  }
+  .secondary-filters select {
+    flex: 1 1 100%;
+  }
 }
 
 .detail-actions {

@@ -322,6 +322,7 @@ let filterCategory   = '';
 let filterRating     = 0;
 let filterIngredient = '';
 let pendingRating    = 0;
+let pendingImageUrl  = null;
 
 function save() {
   localStorage.setItem('memo-products-v7', JSON.stringify(products));
@@ -438,15 +439,31 @@ function setRatingInline(id, rating) {
 
 // ── Modal ─────────────────────────────────────────────
 function openModal() {
-  pendingRating = 0;
-  document.getElementById('input-brand').value    = '';
-  document.getElementById('input-name').value     = '';
-  document.getElementById('input-note').value     = '';
-  document.getElementById('input-status').value   = 'rotation';
-  document.getElementById('input-category').value = 'skincare';
+  pendingRating   = 0;
+  pendingImageUrl = null;
+  document.getElementById('input-brand').value     = '';
+  document.getElementById('input-name').value      = '';
+  document.getElementById('input-note').value      = '';
+  document.getElementById('input-status').value    = 'rotation';
+  document.getElementById('input-category').value  = 'skincare';
+  document.getElementById('input-image-url').value = '';
+  document.getElementById('input-image-file').value = '';
+  setImgPreview(null);
+  // Reset to URL tab
+  document.querySelectorAll('.img-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.img-tab[data-img-tab="url"]').classList.add('active');
+  document.getElementById('img-pane-url').style.display    = '';
+  document.getElementById('img-pane-upload').style.display = 'none';
   updateModalStars(0);
   document.getElementById('modal-overlay').classList.add('open');
   document.getElementById('input-brand').focus();
+}
+
+function setImgPreview(src) {
+  const wrap = document.getElementById('image-preview');
+  const img  = document.getElementById('image-preview-img');
+  if (src) { img.src = src; wrap.style.display = ''; }
+  else      { img.src = ''; wrap.style.display = 'none'; }
 }
 
 function closeModal() {
@@ -466,6 +483,40 @@ document.querySelectorAll('#modal-stars .star').forEach(star => {
   });
   star.addEventListener('mouseenter', () => updateModalStars(parseInt(star.dataset.val)));
   star.addEventListener('mouseleave', () => updateModalStars(pendingRating));
+});
+
+// ── Image input tabs ──────────────────────────────────
+document.querySelectorAll('.img-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.img-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const which = tab.dataset.imgTab;
+    document.getElementById('img-pane-url').style.display    = which === 'url'    ? '' : 'none';
+    document.getElementById('img-pane-upload').style.display = which === 'upload' ? '' : 'none';
+    pendingImageUrl = null;
+    setImgPreview(null);
+  });
+});
+
+// URL input → live preview on blur
+document.getElementById('input-image-url')?.addEventListener('blur', () => {
+  const val = document.getElementById('input-image-url').value.trim();
+  pendingImageUrl = val || null;
+  setImgPreview(val || null);
+});
+
+// File input → convert to data URL
+document.getElementById('input-image-file')?.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) { pendingImageUrl = null; setImgPreview(null); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    pendingImageUrl = ev.target.result;
+    setImgPreview(ev.target.result);
+    // Update label to show filename
+    document.querySelector('.file-upload-label').textContent = file.name;
+  };
+  reader.readAsDataURL(file);
 });
 
 function updateModalStars(n) {
@@ -492,14 +543,14 @@ function addProduct() {
     status:       document.getElementById('input-status').value,
     rating:       pendingRating,
     note:         document.getElementById('input-note').value.trim(),
-    imageUrl:     null,
-    imageFetched: false,
+    imageUrl:     pendingImageUrl || null,
+    imageFetched: !!pendingImageUrl,
   };
 
   products.unshift(product);
   save();
   closeModal();
-  fetchProductImage(product); // fire-and-forget
+  if (!product.imageFetched) fetchProductImage(product); // fire-and-forget
 
   // Show the right filter
   if (activeFilter !== 'all' && activeFilter !== product.status) {
