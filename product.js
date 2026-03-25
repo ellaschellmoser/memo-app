@@ -53,6 +53,49 @@ function renderDetail(p) {
        </div>`
     : '';
 
+  // Community stats
+  const commRatings = p.communityRatings || [];
+  const allRatings  = p.rating > 0 ? [...commRatings, { rating: p.rating }] : [...commRatings];
+  const avgRating   = allRatings.length
+    ? allRatings.reduce((s, r) => s + r.rating, 0) / allRatings.length
+    : 0;
+  const totalCount  = allRatings.length;
+
+  const communityHtml = totalCount > 0 ? `
+    <div class="community-rating">
+      <span class="community-avg-num">${avgRating.toFixed(1)}</span>
+      <div class="community-avg-stars">
+        ${[1,2,3,4,5].map(n =>
+          `<span class="star ${n <= Math.round(avgRating) ? 'filled' : ''}">★</span>`
+        ).join('')}
+      </div>
+      <span class="community-count">${totalCount} rating${totalCount !== 1 ? 's' : ''}</span>
+    </div>` : '';
+
+  const reviewsHtml = commRatings.length ? `
+    <div class="reviews-section">
+      <h3 class="reviews-title">What friends think</h3>
+      <div class="reviews-grid">
+        ${commRatings.map(r => `
+          <div class="review-card">
+            <div class="review-header">
+              <img class="review-avatar" src="${escHtml(r.avatar)}" alt="${escHtml(r.name)}">
+              <div class="review-meta">
+                <div class="review-name">${escHtml(r.name)}</div>
+                <div class="review-handle">${escHtml(r.handle)}</div>
+              </div>
+              <div class="review-stars">
+                ${[1,2,3,4,5].map(n =>
+                  `<span class="star ${n <= r.rating ? 'filled' : ''}">★</span>`
+                ).join('')}
+              </div>
+            </div>
+            <p class="review-comment">"${escHtml(r.comment)}"</p>
+          </div>`
+        ).join('')}
+      </div>
+    </div>` : '';
+
   card.innerHTML = `
     <div class="product-layout">
 
@@ -68,7 +111,11 @@ function renderDetail(p) {
         <div class="product-title">${escHtml(p.name)}</div>
         <span class="category-badge">${CATEGORY_LABELS[p.category] || p.category}</span>
 
-        <div class="form-group" style="margin-top:1.5rem">
+        ${p.description ? `<p class="product-description">${escHtml(p.description)}</p>` : ''}
+
+        ${communityHtml}
+
+        <div class="form-group">
           <label>Your Rating</label>
           <div class="detail-stars" id="detail-stars">
             ${[1,2,3,4,5].map(n =>
@@ -90,7 +137,7 @@ function renderDetail(p) {
 
         <div class="form-group">
           <label>Notes</label>
-          <textarea id="detail-note" rows="6">${escHtml(p.note)}</textarea>
+          <textarea id="detail-note" rows="5">${escHtml(p.note)}</textarea>
         </div>
 
         <div class="detail-actions">
@@ -103,7 +150,9 @@ function renderDetail(p) {
         </div>
       </div>
 
-    </div>`;
+    </div>
+
+    ${reviewsHtml}`;
 
   // Wire up detail star interactions
   document.querySelectorAll('#detail-stars .star').forEach(star => {

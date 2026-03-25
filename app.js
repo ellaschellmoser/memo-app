@@ -27,6 +27,12 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/the-ordinary-niacinamide.png',
     imageFetched: true,
     tags: ['niacinamide', 'zinc'],
+    description: 'A water-based serum that reduces the appearance of blemishes and congestion. Niacinamide (Vitamin B3) at 10% works synergistically with Zinc PCA to visibly minimise shine and improve skin texture over time.',
+    communityRatings: [
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Holy grail for oily skin. Cheap, effective, no fuss — I always have a backup.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 4, comment: 'Really good for texture and pores. I layer it under SPF every morning.' },
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 3, comment: 'Works fine but smells a bit clinical. Prefer something with a nicer texture.' },
+    ],
   },
   {
     id: 2,
@@ -39,6 +45,12 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/rhode-peptide-glazing-fluid.webp',
     tags: ['peptides', 'hyaluronic acid'],
     imageFetched: true,
+    description: 'A lightweight, leave-on serum that plumps, smooths, and adds a glossy glow to the skin. Formulated with a blend of peptides and hyaluronic acid to support the skin barrier and lock in lasting moisture.',
+    communityRatings: [
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The glaze effect is unmatched. I wear it alone on no-makeup days.' },
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Worth every penny. Skin looks so dewy and plump.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 4, comment: 'Love the glow but I add a heavier moisturiser on top in winter.' },
+    ],
   },
   {
     id: 3,
@@ -50,6 +62,12 @@ const SEED_PRODUCTS = [
     note: 'A tiny dot goes a very, very long way. Best blush I\'ve ever used.',
     imageUrl: 'images/rare-beauty-soft-pinch-blush.png',
     imageFetched: true,
+    description: 'A weightless liquid blush that blends seamlessly for a natural, lived-in flush. One small drop delivers buildable, long-wearing colour that never looks cakey or overdone.',
+    communityRatings: [
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'Use the tiniest amount — seriously. Stunning payoff and stays all day.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 4, comment: 'Beautiful flush on the cheeks. Takes a second to blend but totally worth it.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 5, comment: 'My most-used makeup product. The Joy shade is perfect for everyday.' },
+    ],
   },
   {
     id: 4,
@@ -62,6 +80,12 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/olaplex-no3.png',
     tags: ['bond repair'],
     imageFetched: true,
+    description: 'An at-home bond-building treatment that reduces breakage and strengthens hair. The patented Bis-Aminopropyl Diglycol Dimaleate technology reconnects broken disulfide bonds for visibly healthier, stronger strands.',
+    communityRatings: [
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 4, comment: 'Transformed my bleached hair. I use it weekly and the difference is real.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 3, comment: 'Good for the first few months but I didn\'t notice much after that.' },
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 2, comment: 'Didn\'t do much for my fine hair. Made it feel a bit heavy.' },
+    ],
   },
   {
     id: 5,
@@ -74,6 +98,12 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/summer-fridays-jet-lag-mask.png',
     tags: ['niacinamide', 'hyaluronic acid'],
     imageFetched: true,
+    description: 'A multi-use mask that soothes, moisturises, and brightens dull, tired skin. Wear it as an overnight mask, a daily moisturiser, or a primer under makeup — all three work beautifully.',
+    communityRatings: [
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'I use this every single night. Skin looks incredible in the morning.' },
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 4, comment: 'Great texture and hydration. A bit pricey but you don\'t need much.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 5, comment: 'My go-to for long-haul flights. Skin stays calm and plump the whole journey.' },
+    ],
   },
   {
     id: 6,
@@ -85,6 +115,12 @@ const SEED_PRODUCTS = [
     note: 'Perfect for a no-makeup-makeup look. Shade 3 is a perfect match for me.',
     imageUrl: 'images/charlotte-tilbury-flawless-filter.png',
     imageFetched: true,
+    description: 'A complexion booster, primer, and highlighter in one. The feather-light formula blurs imperfections and adds a naturally luminous, skin-like glow — wear it alone or layered under foundation.',
+    communityRatings: [
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The best "your-skin-but-better" product I\'ve ever tried. Always gets compliments.' },
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 4, comment: 'Surprisingly good for men too. Just a little bit for a polished look.' },
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 3, comment: 'Love the glow but a bit too dewy for oily skin without setting powder.' },
+    ],
   },
   // In Rotation additions
   {
@@ -97,6 +133,12 @@ const SEED_PRODUCTS = [
     note: 'Wake up with the softest lips every single morning. Berry scent is everything.',
     imageUrl: 'images/laneige-lip-sleeping-mask.png',
     imageFetched: true,
+    description: 'An overnight lip mask with Moisture Wrap technology that deeply hydrates and softens lips while you sleep. Vitamin C and antioxidants restore the lip\'s natural moisture balance for noticeably softer lips by morning.',
+    communityRatings: [
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'A cult product for a reason. I\'ve repurchased this more times than I can count.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 5, comment: 'My lips have never been softer. The berry scent makes it feel like a real treat.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 4, comment: 'Really effective. I\'d give it 5 stars if the pot weren\'t so unhygienic.' },
+    ],
   },
   {
     id: 8,
@@ -108,6 +150,12 @@ const SEED_PRODUCTS = [
     note: 'Buildable coverage without looking cakey. Syracuse is my holy grail shade.',
     imageUrl: 'images/nars-sheer-glow-foundation.png',
     imageFetched: true,
+    description: 'A medium-coverage foundation with a natural satin finish that leaves skin looking luminous and healthy. Enriched with hyaluronic acid and antioxidants for comfortable, buildable wear that lasts up to 16 hours.',
+    communityRatings: [
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 4, comment: 'One of my all-time favourites. The finish is unmatched for a natural look.' },
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 3, comment: 'Nice finish but oxidises slightly on my skin tone by midday.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 4, comment: 'Great for everyday wear. Doesn\'t emphasise dry patches at all.' },
+    ],
   },
   {
     id: 9,
@@ -120,6 +168,12 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/briogeo-dont-despair-repair.png',
     tags: ['ceramides'],
     imageFetched: true,
+    description: 'An intensive repair mask with B-vitamins, rosehip oil, algae extract, and ceramides that restores moisture and strengthens damaged hair. Vegan, cruelty-free, and safe for colour-treated hair.',
+    communityRatings: [
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Absolute lifesaver for damaged hair. Leave it on for 30 mins and your hair looks brand new.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 4, comment: 'Smells gorgeous and my curls are so much more defined after every use.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 3, comment: 'Works well but I\'ve tried cheaper masks with similar results.' },
+    ],
   },
   // Want to Try additions
   {
@@ -133,6 +187,13 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/drunk-elephant-protini.png',
     tags: ['peptides', 'ceramides'],
     imageFetched: true,
+    description: 'A protein-rich moisturiser formulated with signal peptides, growth factors, and amino acids to improve firmness, texture, and overall skin health. Lightweight enough for AM and PM use on all skin types.',
+    communityRatings: [
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The best moisturiser I\'ve ever used. Skin looks genuinely plumper within a week.' },
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 5, comment: 'Worth the splurge. My skin barrier has never felt this healthy.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 4, comment: 'Lovely texture and sinks in fast. A little goes a long way.' },
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 4, comment: 'Genuinely improved my skin texture. Not cheap but I\'d buy it again.' },
+    ],
   },
   {
     id: 11,
@@ -144,6 +205,11 @@ const SEED_PRODUCTS = [
     note: 'Seen it on so many "clean beauty" lists. The skin-like finish looks stunning.',
     imageUrl: 'images/westman-atelier-foundation.png',
     imageFetched: true,
+    description: 'A skin-improving foundation stick with buildable medium-to-full coverage and a natural, lit-from-within finish. Formulated with squalane and hyaluronic acid to nourish skin throughout the day.',
+    communityRatings: [
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 5, comment: 'The most skin-like coverage I\'ve ever found. Looks like your skin, perfected.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 5, comment: 'Worth every cent. Clean formula, beautiful finish, and it doesn\'t budge.' },
+    ],
   },
   {
     id: 12,
@@ -155,6 +221,12 @@ const SEED_PRODUCTS = [
     note: 'The smell alone has me convinced. Waiting for a sale before committing.',
     imageUrl: 'images/sol-de-janeiro-bum-bum.png',
     imageFetched: true,
+    description: 'A fast-absorbing, whipped body cream that leaves skin incredibly soft and scented with the iconic pistachio-caramel Cheirosa 62 fragrance. Guaraná and caffeine visibly firm and smooth skin with regular use.',
+    communityRatings: [
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 4, comment: 'The smell is absolutely addictive. Absorbs fast and skin feels silky all day.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 5, comment: 'I get compliments on how my skin smells every time I wear this. Pure happiness.' },
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 5, comment: 'Bought it for my girlfriend, ended up using it myself. No regrets.' },
+    ],
   },
   // Retired additions
   {
@@ -168,6 +240,11 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/sonsie-super-serum.png',
     tags: ['niacinamide'],
     imageFetched: true,
+    description: 'A lightweight, fragrance-free serum with 10% niacinamide designed to minimise pores and improve skin clarity. Formulated without alcohol for sensitive skin compatibility.',
+    communityRatings: [
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 2, comment: 'Purging was intense and never really calmed down for me. Switched back to The Ordinary.' },
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 3, comment: 'Decent results for me but nothing special compared to other niacinamides.' },
+    ],
   },
   {
     id: 13,
@@ -180,6 +257,12 @@ const SEED_PRODUCTS = [
     imageUrl: 'images/mario-badescu-drying-lotion.png',
     tags: ['salicylic acid'],
     imageFetched: true,
+    description: 'A cult spot treatment formulated with salicylic acid, sulfur, and calamine to dry out active blemishes overnight. Apply directly onto spots with a cotton bud — do not shake the bottle.',
+    communityRatings: [
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 3, comment: 'Does work on whiteheads but left dry patches around the spot. Use sparingly.' },
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 2, comment: 'Overdried my skin every time. Moved on to gentler spot treatments.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 4, comment: 'Old school but effective. Apply before bed and the spot is visibly smaller by morning.' },
+    ],
   },
   {
     id: 14,
@@ -191,6 +274,12 @@ const SEED_PRODUCTS = [
     note: 'Smells amazing but built up fast and made my roots look greasy by day two.',
     imageUrl: 'images/bumble-hairdressers-oil.png',
     imageFetched: true,
+    description: 'A lightweight blend of six oils — argan, coconut, maize, sweet almond, grape seed, and avocado — that tames frizz, adds shine, and protects against heat styling. Apply sparingly to damp or dry hair.',
+    communityRatings: [
+      { name: 'Mia Derm', handle: '@miaderm', avatar: 'https://i.pravatar.cc/100?img=32', rating: 4, comment: 'Amazing for dry, thick hair. Smells incredible and controls frizz beautifully.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 2, comment: 'Too heavy for fine hair. Roots looked greasy within hours.' },
+      { name: 'Sophie K.', handle: '@sophiek', avatar: 'https://i.pravatar.cc/100?img=47', rating: 3, comment: 'Works well on the ends but I have to be careful not to get it near my roots.' },
+    ],
   },
   {
     id: 15,
@@ -202,12 +291,18 @@ const SEED_PRODUCTS = [
     note: 'Pore-blurring effect was great but it pilled under my foundation. Not compatible.',
     imageUrl: 'images/fenty-beauty-pro-filtr-primer.png',
     imageFetched: true,
+    description: 'A pore-minimizing, matte-finish primer that blurs imperfections and extends foundation wear. The lightweight silicone formula creates a smooth canvas and controls excess shine throughout the day.',
+    communityRatings: [
+      { name: 'Jake R.', handle: '@jaker', avatar: 'https://i.pravatar.cc/100?img=12', rating: 3, comment: 'Good pore-blurring effect but needs to be paired with the right foundation.' },
+      { name: 'Luna V.', handle: '@lunav', avatar: 'https://i.pravatar.cc/100?img=20', rating: 3, comment: 'Pilling was an issue for me too. Great worn alone though.' },
+      { name: 'Rina T.', handle: '@rinat', avatar: 'https://i.pravatar.cc/100?img=49', rating: 2, comment: 'Didn\'t play well with my foundation at all. Disappointing given the hype.' },
+    ],
   },
 ];
 
 // ── State ─────────────────────────────────────────────
 let products = JSON.parse(localStorage.getItem('memo-products-v7') || 'null') || [...SEED_PRODUCTS];
-// Sync seed images into stored products (additions and removals)
+// Sync seed data into stored products (images, descriptions, community ratings)
 products.forEach(p => {
   const seed = SEED_PRODUCTS.find(s => s.id === p.id);
   if (!seed) return;
@@ -218,6 +313,8 @@ products.forEach(p => {
     p.imageUrl = null;
     p.imageFetched = false;
   }
+  p.description      = seed.description      || null;
+  p.communityRatings = seed.communityRatings || [];
 });
 let nextId   = Math.max(0, ...products.map(p => p.id)) + 1;
 let activeFilter     = 'all';
