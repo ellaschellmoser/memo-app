@@ -141,6 +141,23 @@ function renderDetail(p) {
           <textarea id="detail-note" rows="5">${escHtml(p.note)}</textarea>
         </div>
 
+        <div class="form-group ingredients-group">
+          <div class="ingredients-header">
+            <label>Full Ingredients</label>
+            <button type="button" class="ingredients-toggle" id="ingredients-toggle">
+              ${p.ingredientsList ? 'Edit' : '+ Add'}
+            </button>
+          </div>
+          <textarea id="detail-ingredients"
+            class="ingredients-textarea"
+            style="display:none"
+            rows="6"
+            placeholder="Paste the full INCI list here, comma-separated…">${escHtml(p.ingredientsList || '')}</textarea>
+          <div class="ingredients-pills" id="ingredients-pills">
+            ${renderIngredientPills(p.ingredientsList || '')}
+          </div>
+        </div>
+
         <div class="form-group">
           <label>Pin to My Current Favorites</label>
           <div class="fav-slot-picker" id="fav-slot-picker">
@@ -165,6 +182,27 @@ function renderDetail(p) {
 
     ${reviewsHtml}`;
 
+  // Wire up ingredients toggle
+  const ingToggle   = document.getElementById('ingredients-toggle');
+  const ingTextarea = document.getElementById('detail-ingredients');
+  const ingPills    = document.getElementById('ingredients-pills');
+  let ingEditing    = false;
+
+  ingToggle.addEventListener('click', () => {
+    ingEditing = !ingEditing;
+    if (ingEditing) {
+      ingTextarea.style.display = '';
+      ingPills.style.display    = 'none';
+      ingToggle.textContent     = 'Done';
+      ingTextarea.focus();
+    } else {
+      ingPills.innerHTML        = renderIngredientPills(ingTextarea.value);
+      ingTextarea.style.display = 'none';
+      ingPills.style.display    = '';
+      ingToggle.textContent     = ingTextarea.value.trim() ? 'Edit' : '+ Add';
+    }
+  });
+
   // Wire up favorite slot picker
   pendingFavSlot = p.favoriteSlot || 0;
   document.querySelectorAll('#fav-slot-picker .fav-slot-btn').forEach(btn => {
@@ -187,6 +225,14 @@ function renderDetail(p) {
   });
 }
 
+function renderIngredientPills(raw) {
+  if (!raw.trim()) return '<span class="ingredients-empty">No ingredients added yet.</span>';
+  return raw.split(',')
+    .map(i => i.trim()).filter(Boolean)
+    .map(i => `<span class="ingredient-pill">${escHtml(i)}</span>`)
+    .join('');
+}
+
 function updateDetailStars(n) {
   document.querySelectorAll('#detail-stars .star').forEach(s => {
     s.classList.toggle('filled', parseInt(s.dataset.val) <= n);
@@ -195,9 +241,10 @@ function updateDetailStars(n) {
 
 // ── Save ──────────────────────────────────────────────
 function saveChanges() {
-  product.status = document.getElementById('detail-status').value;
-  product.rating = detailRating;
-  product.note   = document.getElementById('detail-note').value.trim();
+  product.status          = document.getElementById('detail-status').value;
+  product.rating          = detailRating;
+  product.note            = document.getElementById('detail-note').value.trim();
+  product.ingredientsList = document.getElementById('detail-ingredients').value.trim();
 
   // Clear the chosen slot from any other product first
   if (pendingFavSlot > 0) {

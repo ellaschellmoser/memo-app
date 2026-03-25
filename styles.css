@@ -985,6 +985,55 @@ footer {
   border: 1px solid var(--border);
 }
 
+/* Full ingredients section */
+.ingredients-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .4rem;
+}
+.ingredients-header label { margin-bottom: 0; }
+
+.ingredients-toggle {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: .78rem;
+  padding: .2rem .7rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.ingredients-toggle:hover { border-color: var(--rose); color: var(--rose); }
+
+.ingredients-textarea { resize: vertical; min-height: 100px; }
+
+.ingredients-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  min-height: 1.5rem;
+}
+
+.ingredient-pill {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: .72rem;
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  background: var(--blush);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.ingredients-empty {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: .82rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
 .product-description {
   font-family: 'Helvetica Neue', sans-serif;
   font-size: .875rem;
