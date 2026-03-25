@@ -323,9 +323,10 @@ products.forEach(p => {
 });
 let nextId   = Math.max(0, ...products.map(p => p.id)) + 1;
 let activeFilter     = 'all';
-let filterCategory   = '';
-let filterRating     = 0;
-let filterIngredient = '';
+let filterCategory     = '';
+let filterRating       = 0;
+let filterIngredient   = '';
+let filterFriendRating = 0;
 let pendingRating    = 0;
 let pendingImageUrl  = null;
 
@@ -376,9 +377,15 @@ function renderGrid() {
   if (!grid) return;
 
   let filtered = activeFilter === 'all' ? products : products.filter(p => p.status === activeFilter);
-  if (filterCategory)   filtered = filtered.filter(p => p.category === filterCategory);
-  if (filterRating)     filtered = filtered.filter(p => p.rating >= filterRating);
-  if (filterIngredient) filtered = filtered.filter(p => (p.tags || []).includes(filterIngredient));
+  if (filterCategory)     filtered = filtered.filter(p => p.category === filterCategory);
+  if (filterRating)       filtered = filtered.filter(p => p.rating >= filterRating);
+  if (filterIngredient)   filtered = filtered.filter(p => (p.tags || []).includes(filterIngredient));
+  if (filterFriendRating) filtered = filtered.filter(p => {
+    const ratings = p.communityRatings || [];
+    if (!ratings.length) return false;
+    const avg = ratings.reduce((s, r) => s + r.rating, 0) / ratings.length;
+    return avg >= filterFriendRating;
+  });
 
   // Update count
   const countEl = document.getElementById('product-count');
@@ -598,9 +605,10 @@ document.getElementById('input-name')?.addEventListener('keydown', e => {
 
 // ── Secondary filters ─────────────────────────────────
 function applySecondaryFilters() {
-  filterCategory   = document.getElementById('filter-category')?.value   || '';
-  filterRating     = parseInt(document.getElementById('filter-rating')?.value || '0');
-  filterIngredient = document.getElementById('filter-ingredient')?.value || '';
+  filterCategory     = document.getElementById('filter-category')?.value      || '';
+  filterRating       = parseInt(document.getElementById('filter-rating')?.value || '0');
+  filterIngredient   = document.getElementById('filter-ingredient')?.value    || '';
+  filterFriendRating = parseFloat(document.getElementById('filter-friend-rating')?.value || '0');
   renderGrid();
 }
 
