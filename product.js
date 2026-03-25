@@ -45,14 +45,6 @@ function renderDetail(p) {
     : '';
   const emojiStyle = p.imageUrl ? 'display:none' : '';
 
-  const tagsHtml = (p.tags && p.tags.length)
-    ? `<div class="form-group">
-        <label>Ingredients</label>
-        <div class="ingredient-tags">
-          ${p.tags.map(t => `<span class="ingredient-tag">${escHtml(t)}</span>`).join('')}
-        </div>
-       </div>`
-    : '';
 
   // Community stats
   const commRatings = p.communityRatings || [];
@@ -134,8 +126,6 @@ function renderDetail(p) {
           </select>
         </div>
 
-        ${tagsHtml}
-
         <div class="form-group">
           <label>Notes</label>
           <textarea id="detail-note" rows="5">${escHtml(p.note)}</textarea>
@@ -143,7 +133,7 @@ function renderDetail(p) {
 
         <div class="form-group ingredients-group">
           <div class="ingredients-header">
-            <label>Full Ingredients</label>
+            <label>Ingredients</label>
             <button type="button" class="ingredients-toggle" id="ingredients-toggle">
               ${p.ingredientsList ? 'Edit' : '+ Add'}
             </button>
