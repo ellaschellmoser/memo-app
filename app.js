@@ -396,7 +396,10 @@ function renderGrid() {
   let filtered = activeFilter === 'all' ? products : products.filter(p => p.status === activeFilter);
   if (filterCategory)     filtered = filtered.filter(p => p.category === filterCategory);
   if (filterRating)       filtered = filtered.filter(p => p.rating >= filterRating);
-  if (filterIngredient)   filtered = filtered.filter(p => (p.tags || []).includes(filterIngredient));
+  if (filterIngredient)   filtered = filtered.filter(p => {
+    if (!p.ingredientsList) return false;
+    return p.ingredientsList.split(',').map(i => i.trim().toLowerCase()).includes(filterIngredient.toLowerCase());
+  });
   if (filterFriendRating) filtered = filtered.filter(p => {
     const ratings = p.communityRatings || [];
     if (!ratings.length) return false;
@@ -629,6 +632,29 @@ function applySecondaryFilters() {
   renderGrid();
 }
 
+// ── Populate ingredient filter ────────────────────────
+function populateIngredientFilter() {
+  const select = document.getElementById('filter-ingredient');
+  if (!select) return;
+
+  const all = new Set();
+  products.forEach(p => {
+    if (!p.ingredientsList) return;
+    p.ingredientsList.split(',').forEach(i => {
+      const name = i.trim();
+      if (name) all.add(name);
+    });
+  });
+
+  const sorted = [...all].sort((a, b) => a.localeCompare(b));
+  sorted.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
+}
+
 // ── Editable favourites title ─────────────────────────
 const favTitleBtn   = document.getElementById('fav-title-btn');
 const favTitleText  = document.getElementById('fav-title-text');
@@ -665,6 +691,7 @@ if (favTitleBtn) {
 }
 
 // ── Init ──────────────────────────────────────────────
+populateIngredientFilter();
 renderTop3();
 renderGrid();
 products.forEach(p => { if (!p.imageFetched) fetchProductImage(p); });
