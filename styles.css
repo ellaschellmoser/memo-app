@@ -365,6 +365,76 @@ nav {
   padding: 2.5rem 2rem;
 }
 
+/* Editable favourites title */
+.fav-title-row {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin-bottom: 0;
+}
+.fav-title-edit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: .85rem;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  opacity: .6;
+  transition: opacity .15s, color .15s;
+}
+.fav-title-edit:hover { opacity: 1; color: var(--rose); }
+.fav-title-input {
+  border: none;
+  border-bottom: 1.5px solid var(--lavender);
+  background: transparent;
+  outline: none;
+  padding: 0 2px;
+  min-width: 12rem;
+}
+
+/* Empty slot cards */
+.top3-card-empty {
+  opacity: .55;
+  cursor: default;
+  border-style: dashed;
+}
+.top3-card-empty:hover { transform: none; box-shadow: none; }
+.top3-rank-empty { color: var(--border); }
+.top3-empty-hint {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: .78rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Favorite slot picker (product detail page) */
+.fav-slot-picker {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: .25rem;
+}
+.fav-slot-btn {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: .82rem;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+}
+.fav-slot-btn:hover { border-color: var(--rose); color: var(--rose); }
+.fav-slot-btn.active {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: var(--white);
+  font-weight: 500;
+}
+
 .top3-inner {
   max-width: 1100px;
   margin: 0 auto;

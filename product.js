@@ -14,7 +14,8 @@ const CATEGORY_LABELS = {
 const params  = new URLSearchParams(location.search);
 const rawId   = parseInt(params.get('id'));
 const product = isNaN(rawId) ? null : products.find(p => p.id === rawId);
-let detailRating = product ? product.rating : 0;
+let detailRating   = product ? product.rating : 0;
+let pendingFavSlot = product ? (product.favoriteSlot || 0) : 0;
 
 if (!product) {
   renderNotFound();
@@ -140,6 +141,16 @@ function renderDetail(p) {
           <textarea id="detail-note" rows="5">${escHtml(p.note)}</textarea>
         </div>
 
+        <div class="form-group">
+          <label>Pin to My Current Favorites</label>
+          <div class="fav-slot-picker" id="fav-slot-picker">
+            <button type="button" class="fav-slot-btn ${!p.favoriteSlot ? 'active' : ''}" data-slot="0">None</button>
+            <button type="button" class="fav-slot-btn ${p.favoriteSlot === 1 ? 'active' : ''}" data-slot="1">★ 1</button>
+            <button type="button" class="fav-slot-btn ${p.favoriteSlot === 2 ? 'active' : ''}" data-slot="2">★ 2</button>
+            <button type="button" class="fav-slot-btn ${p.favoriteSlot === 3 ? 'active' : ''}" data-slot="3">★ 3</button>
+          </div>
+        </div>
+
         <div class="detail-actions">
           <button class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
           <span class="save-feedback" id="save-feedback">Saved!</span>
@@ -153,6 +164,17 @@ function renderDetail(p) {
     </div>
 
     ${reviewsHtml}`;
+
+  // Wire up favorite slot picker
+  pendingFavSlot = p.favoriteSlot || 0;
+  document.querySelectorAll('#fav-slot-picker .fav-slot-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      pendingFavSlot = parseInt(btn.dataset.slot);
+      document.querySelectorAll('#fav-slot-picker .fav-slot-btn').forEach(b =>
+        b.classList.toggle('active', parseInt(b.dataset.slot) === pendingFavSlot)
+      );
+    });
+  });
 
   // Wire up detail star interactions
   document.querySelectorAll('#detail-stars .star').forEach(star => {
@@ -176,6 +198,17 @@ function saveChanges() {
   product.status = document.getElementById('detail-status').value;
   product.rating = detailRating;
   product.note   = document.getElementById('detail-note').value.trim();
+
+  // Clear the chosen slot from any other product first
+  if (pendingFavSlot > 0) {
+    products.forEach(other => {
+      if (other.id !== product.id && other.favoriteSlot === pendingFavSlot) {
+        other.favoriteSlot = null;
+      }
+    });
+  }
+  product.favoriteSlot = pendingFavSlot > 0 ? pendingFavSlot : null;
+
   save();
 
   const fb = document.getElementById('save-feedback');

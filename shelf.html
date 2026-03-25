@@ -22,7 +22,11 @@
   <!-- Top 3 Section -->
   <section class="top3-section">
     <div class="top3-inner">
-      <p class="section-label">Your Favourites</p>
+      <div class="fav-title-row">
+        <span class="section-label" id="fav-title-text"></span>
+        <button class="fav-title-edit" id="fav-title-btn" title="Rename">✎</button>
+        <input class="section-label fav-title-input" id="fav-title-input" style="display:none" maxlength="40" />
+      </div>
       <div class="top3-grid" id="top3-grid"></div>
     </div>
   </section>

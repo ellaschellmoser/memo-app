@@ -14,6 +14,11 @@ const STATUS_LABELS = {
   want:        'Want to Try',
 };
 
+const FAV_TITLE_KEY = 'memo-fav-title';
+function getFavTitle() {
+  return localStorage.getItem(FAV_TITLE_KEY) || 'My Current Favorites';
+}
+
 // Seed data so the shelf isn't empty on first load
 const SEED_PRODUCTS = [
   {
@@ -330,33 +335,39 @@ function save() {
 
 // ── Top 3 ─────────────────────────────────────────────
 function renderTop3() {
-  const grid = document.getElementById('top3-grid');
+  const grid    = document.getElementById('top3-grid');
+  const titleEl = document.getElementById('fav-title-text');
   if (!grid) return;
+  if (titleEl) titleEl.textContent = getFavTitle();
 
-  const top3 = [...products]
-    .filter(p => p.rating > 0)
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 3);
-
-  grid.innerHTML = top3.map((p, i) => `
-    <div class="top3-card" onclick="location.href='product.html?id=${p.id}'">
-      <div class="top3-rank">${i + 1}</div>
-      <div class="top3-img">
-        ${p.imageUrl
-          ? `<img src="${escHtml(p.imageUrl)}" alt="${escHtml(p.brand)} ${escHtml(p.name)}"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-          : ''}
-        <span class="card-emoji-fallback" style="${p.imageUrl ? 'display:none' : ''}">${EMOJI_MAP[p.category] || '✦'}</span>
-      </div>
-      <div class="top3-body">
-        <div class="card-brand">${escHtml(p.brand)}</div>
-        <div class="card-name">${escHtml(p.name)}</div>
-        <div class="stars">
-          ${[1,2,3,4,5].map(n => `<span class="star ${n <= p.rating ? 'filled' : ''}">★</span>`).join('')}
+  grid.innerHTML = [1, 2, 3].map(slot => {
+    const p = products.find(p => p.favoriteSlot === slot);
+    if (!p) return `
+      <div class="top3-card top3-card-empty" onclick="/* no-op */">
+        <div class="top3-rank top3-rank-empty">${slot}</div>
+        <div class="top3-body">
+          <div class="top3-empty-hint">No favorite set — open a product and pin it here</div>
         </div>
-      </div>
-    </div>
-  `).join('');
+      </div>`;
+    return `
+      <div class="top3-card" onclick="location.href='product.html?id=${p.id}'">
+        <div class="top3-rank">${slot}</div>
+        <div class="top3-img">
+          ${p.imageUrl
+            ? `<img src="${escHtml(p.imageUrl)}" alt="${escHtml(p.brand)} ${escHtml(p.name)}"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+            : ''}
+          <span class="card-emoji-fallback" style="${p.imageUrl ? 'display:none' : ''}">${EMOJI_MAP[p.category] || '✦'}</span>
+        </div>
+        <div class="top3-body">
+          <div class="card-brand">${escHtml(p.brand)}</div>
+          <div class="card-name">${escHtml(p.name)}</div>
+          <div class="stars">
+            ${[1,2,3,4,5].map(n => `<span class="star ${n <= p.rating ? 'filled' : ''}">★</span>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
 }
 
 // ── Render ────────────────────────────────────────────
@@ -591,6 +602,41 @@ function applySecondaryFilters() {
   filterRating     = parseInt(document.getElementById('filter-rating')?.value || '0');
   filterIngredient = document.getElementById('filter-ingredient')?.value || '';
   renderGrid();
+}
+
+// ── Editable favourites title ─────────────────────────
+const favTitleBtn   = document.getElementById('fav-title-btn');
+const favTitleText  = document.getElementById('fav-title-text');
+const favTitleInput = document.getElementById('fav-title-input');
+
+if (favTitleBtn) {
+  favTitleBtn.addEventListener('click', () => {
+    favTitleInput.value = getFavTitle();
+    favTitleText.style.display  = 'none';
+    favTitleBtn.style.display   = 'none';
+    favTitleInput.style.display = '';
+    favTitleInput.focus();
+    favTitleInput.select();
+  });
+
+  function commitFavTitle() {
+    const val = favTitleInput.value.trim();
+    if (val) localStorage.setItem(FAV_TITLE_KEY, val);
+    favTitleText.textContent    = getFavTitle();
+    favTitleText.style.display  = '';
+    favTitleBtn.style.display   = '';
+    favTitleInput.style.display = 'none';
+  }
+
+  favTitleInput.addEventListener('blur', commitFavTitle);
+  favTitleInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter')  { e.preventDefault(); commitFavTitle(); }
+    if (e.key === 'Escape') {
+      favTitleText.style.display  = '';
+      favTitleBtn.style.display   = '';
+      favTitleInput.style.display = 'none';
+    }
+  });
 }
 
 // ── Init ──────────────────────────────────────────────
