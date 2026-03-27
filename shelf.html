@@ -3,34 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Shelf — Memo</title>
+  <title>My Shelf — Peachy</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <a href="index.html" class="nav-logo">peachy<span>.</span></a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shelf.html" class="active">My Shelf</a>
       <a href="feed.html">My Feed</a>
       <a href="articles.html">Articles</a>
-      <a href="account.html">My Account</a>
+      <div class="nav-account-menu">
+        <button class="nav-account-btn">Account ▾</button>
+        <div class="nav-account-dropdown">
+          <a href="account.html">Go to my profile</a>
+          <a href="#" onclick="logout(); return false;">Logout</a>
+        </div>
+      </div>
     </div>
   </nav>
-
-  <!-- Top 3 Section -->
-  <section class="top3-section">
-    <div class="top3-inner">
-      <div class="fav-title-row">
-        <span class="section-label" id="fav-title-text"></span>
-        <button class="fav-title-edit" id="fav-title-btn" title="Rename">✎</button>
-        <input class="section-label fav-title-input" id="fav-title-input" style="display:none" maxlength="40" />
-      </div>
-      <div class="top3-grid" id="top3-grid"></div>
-    </div>
-  </section>
 
   <!-- Shelf Page -->
   <main class="shelf-page">
@@ -50,34 +44,79 @@
       <button class="filter-tab" data-filter="retired">Not for Me</button>
     </div>
 
-    <!-- Secondary filters -->
-    <div class="secondary-filters">
-      <select id="filter-category" onchange="applySecondaryFilters()">
-        <option value="">All Categories</option>
-        <option value="skincare">Skincare</option>
-        <option value="makeup">Makeup</option>
-        <option value="haircare">Haircare</option>
-        <option value="bodycare">Body Care</option>
-        <option value="fragrance">Fragrance</option>
-        <option value="tools">Tools</option>
-      </select>
-      <select id="filter-rating" onchange="applySecondaryFilters()">
-        <option value="0">All Ratings</option>
-        <option value="5">★★★★★</option>
-        <option value="4">★★★★</option>
-        <option value="3">★★★</option>
-        <option value="2">★★</option>
-        <option value="1">★</option>
-      </select>
-      <select id="filter-ingredient" onchange="applySecondaryFilters()">
-        <option value="">All Ingredients</option>
-      </select>
-      <select id="filter-friend-rating" onchange="applySecondaryFilters()">
-        <option value="0">All Friends Ratings</option>
-        <option value="4.5">Friends ★★★★★</option>
-        <option value="4">Friends ★★★★+</option>
-        <option value="3">Friends ★★★+</option>
-      </select>
+    <!-- Filter + Sort bar -->
+    <div class="filter-sort-bar">
+
+      <!-- Filter button -->
+      <div class="fs-menu-wrap" id="filter-wrap">
+        <button class="fs-btn" id="filter-toggle-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          Filters
+        </button>
+        <div class="fs-panel" id="filter-panel">
+          <button class="filter-clear-btn" id="filter-clear-btn">Clear all filters</button>
+          <div class="fs-row">
+            <label for="filter-category">Category</label>
+            <select id="filter-category" onchange="applySecondaryFilters()">
+              <option value="">All Categories</option>
+              <option value="bodycare">Body Care</option>
+              <option value="fragrance">Fragrance</option>
+              <option value="haircare">Haircare</option>
+              <option value="makeup">Makeup</option>
+              <option value="skincare">Skincare</option>
+              <option value="tools">Tools</option>
+            </select>
+          </div>
+          <div class="fs-row">
+            <label for="filter-brand">Brand</label>
+            <select id="filter-brand" onchange="applySecondaryFilters()">
+              <option value="">All Brands</option>
+            </select>
+          </div>
+          <div class="fs-row">
+            <label for="filter-rating">Rating</label>
+            <select id="filter-rating" onchange="applySecondaryFilters()">
+              <option value="0">All Ratings</option>
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★</option>
+              <option value="3">★★★</option>
+              <option value="2">★★</option>
+              <option value="1">★</option>
+            </select>
+          </div>
+          <div class="fs-row">
+            <label for="filter-ingredient">Ingredient</label>
+            <select id="filter-ingredient" onchange="applySecondaryFilters()">
+              <option value="">All Ingredients</option>
+            </select>
+          </div>
+          <div class="fs-row">
+            <label for="filter-friend-rating">Friends Rating</label>
+            <select id="filter-friend-rating" onchange="applySecondaryFilters()">
+              <option value="0">All Ratings</option>
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★</option>
+              <option value="3">★★★</option>
+              <option value="2">★★</option>
+              <option value="1">★</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sort button -->
+      <div class="fs-menu-wrap" id="sort-wrap">
+        <button class="fs-btn" id="sort-toggle-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+          Sort
+        </button>
+        <div class="fs-panel" id="sort-panel">
+          <button class="filter-clear-btn" id="sort-clear-btn">Clear</button>
+          <button class="sort-option" data-sort="asc">A → Z</button>
+          <button class="sort-option" data-sort="desc">Z → A</button>
+        </div>
+      </div>
+
     </div>
 
     <!-- Product grid -->
@@ -90,6 +129,16 @@
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <h2>Add a Product</h2>
+
+      <div class="form-group library-search-group">
+        <label>Search Library</label>
+        <div class="library-search-wrap">
+          <input type="text" id="library-search" placeholder="Search existing products…" autocomplete="off"
+                 oninput="onLibrarySearch(this.value)" onblur="setTimeout(hideLibrarySuggestions, 150)" />
+          <div class="library-suggestions" id="library-suggestions" style="display:none"></div>
+        </div>
+        <p class="library-search-hint">Find a product others have added, or fill in the fields below to add a new one.</p>
+      </div>
 
       <div class="form-group">
         <label>Brand</label>
@@ -163,8 +212,16 @@
     </div>
   </div>
 
-  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+  <footer>© 2026 Peachy · made with ♡ for beauty lovers</footer>
 
+  <script src="auth.js"></script>
+  <script>
+    const _session = requireAuth();
+    const _acctBtn = document.querySelector('.nav-account-btn');
+    const _acctMenu = document.querySelector('.nav-account-menu');
+    _acctBtn.addEventListener('click', e => { e.stopPropagation(); _acctMenu.classList.toggle('open'); });
+    document.addEventListener('click', () => _acctMenu.classList.remove('open'));
+</script>
   <script src="app.js"></script>
 </body>
 </html>

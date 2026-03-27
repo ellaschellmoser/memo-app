@@ -119,13 +119,53 @@ const POSTS = [
 
 const STATUS_LABELS = { rotation: 'In Rotation', retired: 'Not for Me', want: 'Want to Try' };
 
+// ── Interactions (likes + comments) ───────────────────
+const INTERACTIONS_KEY = 'peachy-feed-interactions';
+
+function loadInteractions() {
+  return JSON.parse(localStorage.getItem(userKey(INTERACTIONS_KEY)) || '{}');
+}
+
+function saveInteractions(data) {
+  localStorage.setItem(userKey(INTERACTIONS_KEY), JSON.stringify(data));
+}
+
+function postActionsHtml(idx) {
+  const data = loadInteractions();
+  const post = data[idx] || {};
+  const liked = !!post.liked;
+  const likeCount = post.likeCount || 0;
+  const comments = post.comments || [];
+  const commentsHtml = comments.map(c => `
+    <div class="post-comment">
+      <span class="post-comment-author">You</span>
+      <span class="post-comment-text">${escHtml(c.text)}</span>
+    </div>`).join('');
+  return `
+    <div class="post-actions">
+      <button class="post-like-btn ${liked ? 'liked' : ''}" data-idx="${idx}">
+        ${liked ? '♥' : '♡'} <span class="post-like-count">${likeCount > 0 ? likeCount : ''}</span>
+      </button>
+      <button class="post-comment-toggle" data-idx="${idx}">
+        💬 ${comments.length > 0 ? comments.length : ''}
+      </button>
+    </div>
+    <div class="post-comment-section" id="comment-section-${idx}" style="display:none">
+      ${commentsHtml ? `<div class="post-comments-list" id="comments-list-${idx}">${commentsHtml}</div>` : `<div class="post-comments-list" id="comments-list-${idx}"></div>`}
+      <div class="post-comment-input-row">
+        <input class="post-comment-input" type="text" placeholder="Add a comment…" data-idx="${idx}">
+        <button class="post-comment-submit" data-idx="${idx}">Post</button>
+      </div>
+    </div>`;
+}
+
 // ── Render a single post ──────────────────────────────
-function renderPost(post) {
-  if (post.type === 'added') return renderAdded(post);
-  if (post.type === 'rated') return renderRated(post);
-  if (post.type === 'news' || post.type === 'trend') return renderEditorial(post);
-  if (post.type === 'tutorial') return renderTutorial(post);
-  if (post.type === 'brand') return renderBrand(post);
+function renderPost(post, idx) {
+  if (post.type === 'added') return renderAdded(post, idx);
+  if (post.type === 'rated') return renderRated(post, idx);
+  if (post.type === 'news' || post.type === 'trend') return renderEditorial(post, idx);
+  if (post.type === 'tutorial') return renderTutorial(post, idx);
+  if (post.type === 'brand') return renderBrand(post, idx);
   return '';
 }
 
@@ -140,7 +180,7 @@ function userHeader(user, time) {
     </div>`;
 }
 
-function renderAdded(post) {
+function renderAdded(post, idx) {
   return `
     <article class="feed-card">
       ${userHeader(post.user, post.time)}
@@ -154,10 +194,11 @@ function renderAdded(post) {
         </div>
       </div>
       ${post.caption ? `<p class="post-caption">"${escHtml(post.caption)}"</p>` : ''}
+      ${postActionsHtml(idx)}
     </article>`;
 }
 
-function renderRated(post) {
+function renderRated(post, idx) {
   return `
     <article class="feed-card">
       ${userHeader(post.user, post.time)}
@@ -171,10 +212,11 @@ function renderRated(post) {
         </div>
       </div>
       ${post.note ? `<p class="post-caption">"${escHtml(post.note)}"</p>` : ''}
+      ${postActionsHtml(idx)}
     </article>`;
 }
 
-function renderEditorial(post) {
+function renderEditorial(post, idx) {
   return `
     <article class="feed-card feed-card--editorial">
       <div class="editorial-label">${escHtml(post.label)}</div>
@@ -182,10 +224,11 @@ function renderEditorial(post) {
       <h2 class="editorial-headline">${escHtml(post.headline)}</h2>
       <p class="editorial-body">${escHtml(post.body)}</p>
       <div class="post-meta-row">${post.time}</div>
+      ${postActionsHtml(idx)}
     </article>`;
 }
 
-function renderTutorial(post) {
+function renderTutorial(post, idx) {
   const stepsHtml = post.steps
     ? `<ol class="tutorial-steps">${post.steps.map(s => `<li>${escHtml(s)}</li>`).join('')}</ol>`
     : '';
@@ -197,10 +240,11 @@ function renderTutorial(post) {
       <p class="editorial-body">${escHtml(post.body)}</p>
       ${stepsHtml}
       <div class="post-meta-row">${post.time}</div>
+      ${postActionsHtml(idx)}
     </article>`;
 }
 
-function renderBrand(post) {
+function renderBrand(post, idx) {
   return `
     <article class="feed-card feed-card--brand">
       <div class="editorial-label">${escHtml(post.label)}</div>
@@ -209,6 +253,7 @@ function renderBrand(post) {
       <p class="editorial-body">${escHtml(post.body)}</p>
       ${post.tag ? `<span class="brand-tag">${escHtml(post.tag)}</span>` : ''}
       <div class="post-meta-row">${post.time}</div>
+      ${postActionsHtml(idx)}
     </article>`;
 }
 
@@ -235,5 +280,70 @@ function renderSidebar() {
 }
 
 // ── Init ──────────────────────────────────────────────
-document.getElementById('feed-main').innerHTML = POSTS.map(renderPost).join('');
+document.getElementById('feed-main').innerHTML = POSTS.map((post, idx) => renderPost(post, idx)).join('');
 renderSidebar();
+
+// ── Like & Comment handlers (event delegation) ────────
+document.getElementById('feed-main').addEventListener('click', e => {
+  // Like button
+  const likeBtn = e.target.closest('.post-like-btn');
+  if (likeBtn) {
+    const idx = likeBtn.dataset.idx;
+    const data = loadInteractions();
+    if (!data[idx]) data[idx] = { liked: false, likeCount: 0, comments: [] };
+    data[idx].liked = !data[idx].liked;
+    data[idx].likeCount = (data[idx].likeCount || 0) + (data[idx].liked ? 1 : -1);
+    saveInteractions(data);
+    likeBtn.classList.toggle('liked', data[idx].liked);
+    likeBtn.innerHTML = `${data[idx].liked ? '♥' : '♡'} <span class="post-like-count">${data[idx].likeCount > 0 ? data[idx].likeCount : ''}</span>`;
+    return;
+  }
+
+  // Comment toggle
+  const toggleBtn = e.target.closest('.post-comment-toggle');
+  if (toggleBtn) {
+    const idx = toggleBtn.dataset.idx;
+    const section = document.getElementById(`comment-section-${idx}`);
+    const isOpen = section.style.display !== 'none';
+    section.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) section.querySelector('.post-comment-input')?.focus();
+    return;
+  }
+
+  // Submit comment
+  const submitBtn = e.target.closest('.post-comment-submit');
+  if (submitBtn) {
+    const idx = submitBtn.dataset.idx;
+    const input = document.querySelector(`.post-comment-input[data-idx="${idx}"]`);
+    const text = input.value.trim();
+    if (!text) return;
+    const data = loadInteractions();
+    if (!data[idx]) data[idx] = { liked: false, likeCount: 0, comments: [] };
+    data[idx].comments.push({ text });
+    saveInteractions(data);
+    const list = document.getElementById(`comments-list-${idx}`);
+    const div = document.createElement('div');
+    div.className = 'post-comment';
+    div.innerHTML = `<span class="post-comment-author">You</span><span class="post-comment-text">${escHtml(text)}</span>`;
+    list.appendChild(div);
+    // Update comment toggle count
+    const toggle = document.querySelector(`.post-comment-toggle[data-idx="${idx}"]`);
+    if (toggle) toggle.innerHTML = `💬 ${data[idx].comments.length}`;
+    input.value = '';
+    return;
+  }
+});
+
+// ── Trending list links ────────────────────────────────
+(function wireTrendingLinks() {
+  const key = userKey('peachy-products-v7');
+  const products = JSON.parse(localStorage.getItem(key) || '[]');
+  document.querySelectorAll('.trending-list li[data-product-name]').forEach(li => {
+    const targetName = li.dataset.productName.toLowerCase();
+    const match = products.find(p => p.name.toLowerCase().includes(targetName) || targetName.includes(p.name.toLowerCase()));
+    if (match) {
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', () => { location.href = 'product.html?id=' + match.id; });
+    }
+  });
+})();

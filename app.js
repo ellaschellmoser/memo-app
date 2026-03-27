@@ -14,9 +14,38 @@ const STATUS_LABELS = {
   want:        'Want to Try',
 };
 
-const FAV_TITLE_KEY = 'memo-fav-title';
+const FAV_TITLE_KEY = 'peachy-fav-title';
+
+// ── Product Library ────────────────────────────────────
+const LIBRARY_KEY = 'peachy-library';
+
+function getLibrary() {
+  return JSON.parse(localStorage.getItem(LIBRARY_KEY) || '[]');
+}
+
+function saveLibrary(lib) {
+  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+}
+
+function addToLibrary({ brand, name, category, imageUrl }) {
+  const lib = getLibrary();
+  const exists = lib.some(
+    e => e.brand.toLowerCase() === brand.toLowerCase() &&
+         e.name.toLowerCase()  === name.toLowerCase()
+  );
+  if (!exists) {
+    lib.push({ brand, name, category, imageUrl: imageUrl || null });
+    saveLibrary(lib);
+  }
+}
+
+// Seed library from SEED_PRODUCTS on first run
+(function seedLibrary() {
+  if (localStorage.getItem(LIBRARY_KEY)) return;
+  // will be populated after SEED_PRODUCTS is defined — see bottom of file
+})();
 function getFavTitle() {
-  return localStorage.getItem(FAV_TITLE_KEY) || 'My Current Favorites';
+  return localStorage.getItem(userKey('peachy-fav-title')) || 'My Current Favorites';
 }
 
 // Seed data so the shelf isn't empty on first load
@@ -322,7 +351,9 @@ const SEED_PRODUCTS = [
 ];
 
 // ── State ─────────────────────────────────────────────
-let products = JSON.parse(localStorage.getItem('memo-products-v7') || 'null') || [...SEED_PRODUCTS];
+const _storedProducts = localStorage.getItem(userKey('peachy-products-v7'));
+let products = JSON.parse(_storedProducts || 'null') || [...SEED_PRODUCTS];
+if (!_storedProducts) localStorage.setItem(userKey('peachy-products-v7'), JSON.stringify(products));
 // Sync seed data into stored products (images, descriptions, community ratings)
 products.forEach(p => {
   const seed = SEED_PRODUCTS.find(s => s.id === p.id);
@@ -344,11 +375,13 @@ let filterCategory     = '';
 let filterRating       = 0;
 let filterIngredient   = '';
 let filterFriendRating = 0;
+let filterBrand        = '';
+let sortOrder          = '';
 let pendingRating    = 0;
 let pendingImageUrl  = null;
 
 function save() {
-  localStorage.setItem('memo-products-v7', JSON.stringify(products));
+  localStorage.setItem(userKey('peachy-products-v7'), JSON.stringify(products));
 }
 
 // ── Top 3 ─────────────────────────────────────────────
@@ -395,7 +428,7 @@ function renderGrid() {
 
   let filtered = activeFilter === 'all' ? products : products.filter(p => p.status === activeFilter);
   if (filterCategory)     filtered = filtered.filter(p => p.category === filterCategory);
-  if (filterRating)       filtered = filtered.filter(p => p.rating >= filterRating);
+  if (filterRating)       filtered = filtered.filter(p => p.rating === filterRating);
   if (filterIngredient)   filtered = filtered.filter(p => {
     if (!p.ingredientsList) return false;
     return p.ingredientsList.split(',').map(i => i.trim().toLowerCase()).includes(filterIngredient.toLowerCase());
@@ -404,8 +437,11 @@ function renderGrid() {
     const ratings = p.communityRatings || [];
     if (!ratings.length) return false;
     const avg = ratings.reduce((s, r) => s + r.rating, 0) / ratings.length;
-    return avg >= filterFriendRating;
+    return Math.round(avg) === filterFriendRating;
   });
+  if (filterBrand) filtered = filtered.filter(p => p.brand === filterBrand);
+  if (sortOrder === 'asc')  filtered.sort((a, b) => a.brand.localeCompare(b.brand));
+  if (sortOrder === 'desc') filtered.sort((a, b) => b.brand.localeCompare(a.brand));
 
   // Update count
   const countEl = document.getElementById('product-count');
@@ -493,8 +529,10 @@ function openModal() {
   document.getElementById('img-pane-url').style.display    = '';
   document.getElementById('img-pane-upload').style.display = 'none';
   updateModalStars(0);
+  document.getElementById('library-search').value = '';
+  hideLibrarySuggestions();
   document.getElementById('modal-overlay').classList.add('open');
-  document.getElementById('input-brand').focus();
+  document.getElementById('library-search').focus();
 }
 
 function setImgPreview(src) {
@@ -587,6 +625,8 @@ function addProduct() {
 
   products.unshift(product);
   save();
+  populateBrandFilter();
+  addToLibrary(product);
   closeModal();
   if (!product.imageFetched) fetchProductImage(product); // fire-and-forget
 
@@ -598,22 +638,50 @@ function addProduct() {
   }
 }
 
-// ── Image fetch (Open Beauty Facts) ───────────────────
+// ── Image + ingredients fetch (Open Beauty Facts) ─────
 async function fetchProductImage(product) {
   if (product.imageFetched) return;
   const query = encodeURIComponent(`${product.brand} ${product.name}`);
-  const url   = `https://world.openbeautyfacts.org/cgi/search.pl?search_terms=${query}&action=process&json=1&page_size=3`;
+  const url   = `https://world.openbeautyfacts.org/cgi/search.pl?search_terms=${query}&action=process&json=1&page_size=5`;
   try {
     const res  = await fetch(url);
     if (!res.ok) throw new Error('non-200');
     const data = await res.json();
-    const match = (data.products || []).find(p => p.image_url || p.image_front_url);
-    product.imageUrl = match ? (match.image_url || match.image_front_url) : null;
+    const results = data.products || [];
+
+    // Best match: prefer entries that have both image and ingredients
+    const match = results.find(p => (p.image_url || p.image_front_url) && p.ingredients_text)
+               || results.find(p => p.image_url || p.image_front_url)
+               || results.find(p => p.ingredients_text)
+               || null;
+
+    product.imageUrl = match ? (match.image_url || match.image_front_url || null) : null;
+
+    // Parse ingredients into a clean comma-separated list if not already set
+    if (!product.ingredientsList && match?.ingredients_text) {
+      product.ingredientsList = match.ingredients_text
+        .replace(/\[.*?\]/g, '')        // strip bracketed notes
+        .replace(/\(.*?\)/g, '')        // strip parenthetical notes
+        .split(/[,;]+/)
+        .map(i => i.trim().replace(/^\*+/, '').trim())
+        .filter(i => i.length > 1 && i.length < 60)
+        .slice(0, 30)
+        .join(', ');
+    }
   } catch (_) {
     product.imageUrl = null;
   } finally {
     product.imageFetched = true;
     save();
+    // Keep library image in sync
+    if (product.imageUrl) {
+      const lib = getLibrary();
+      const entry = lib.find(e =>
+        e.brand.toLowerCase() === product.brand.toLowerCase() &&
+        e.name.toLowerCase()  === product.name.toLowerCase()
+      );
+      if (entry && !entry.imageUrl) { entry.imageUrl = product.imageUrl; saveLibrary(lib); }
+    }
     renderGrid();
   }
 }
@@ -629,7 +697,30 @@ function applySecondaryFilters() {
   filterRating       = parseInt(document.getElementById('filter-rating')?.value || '0');
   filterIngredient   = document.getElementById('filter-ingredient')?.value    || '';
   filterFriendRating = parseFloat(document.getElementById('filter-friend-rating')?.value || '0');
+  filterBrand        = document.getElementById('filter-brand')?.value || '';
+  updateFilterBtnState();
   renderGrid();
+}
+
+function updateFilterBtnState() {
+  const anyActive = filterCategory || filterRating || filterIngredient || filterFriendRating || filterBrand;
+  document.getElementById('filter-toggle-btn')?.classList.toggle('fs-btn-active', !!anyActive);
+}
+
+// ── Populate brand filter ─────────────────────────────
+function populateBrandFilter() {
+  const select = document.getElementById('filter-brand');
+  if (!select) return;
+  const current = select.value;
+  select.innerHTML = '<option value="">All Brands</option>';
+  const brands = [...new Set(products.map(p => p.brand).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  brands.forEach(brand => {
+    const opt = document.createElement('option');
+    opt.value = brand;
+    opt.textContent = brand;
+    select.appendChild(opt);
+  });
+  if (current) select.value = current;
 }
 
 // ── Populate ingredient filter ────────────────────────
@@ -672,7 +763,7 @@ if (favTitleBtn) {
 
   function commitFavTitle() {
     const val = favTitleInput.value.trim();
-    if (val) localStorage.setItem(FAV_TITLE_KEY, val);
+    if (val) localStorage.setItem(userKey('peachy-fav-title'), val);
     favTitleText.textContent    = getFavTitle();
     favTitleText.style.display  = '';
     favTitleBtn.style.display   = '';
@@ -690,8 +781,126 @@ if (favTitleBtn) {
   });
 }
 
+// ── Library search ────────────────────────────────────
+let libMatches = [];
+
+function onLibrarySearch(query) {
+  const box = document.getElementById('library-suggestions');
+  if (!query.trim()) { hideLibrarySuggestions(); return; }
+
+  const q = query.toLowerCase();
+  libMatches = getLibrary().filter(e =>
+    e.brand.toLowerCase().includes(q) || e.name.toLowerCase().includes(q)
+  ).slice(0, 7);
+
+  if (!libMatches.length) { hideLibrarySuggestions(); return; }
+
+  box.innerHTML = libMatches.map((e, i) => `
+    <div class="library-suggestion" onmousedown="fillFromLibrary(${i})">
+      <span class="library-suggestion-brand">${escHtml(e.brand)}</span>
+      <span class="library-suggestion-name">${escHtml(e.name)}</span>
+      <span class="library-suggestion-cat">${escHtml(e.category)}</span>
+    </div>`).join('');
+  box.style.display = '';
+}
+
+function hideLibrarySuggestions() {
+  const box = document.getElementById('library-suggestions');
+  if (box) { box.innerHTML = ''; box.style.display = 'none'; }
+}
+
+function fillFromLibrary(idx) {
+  const entry = libMatches[idx];
+  if (!entry) return;
+  document.getElementById('input-brand').value    = entry.brand;
+  document.getElementById('input-name').value     = entry.name;
+  document.getElementById('input-category').value = entry.category;
+  if (entry.imageUrl) {
+    pendingImageUrl = entry.imageUrl;
+    setImgPreview(entry.imageUrl);
+    document.getElementById('input-image-url').value = entry.imageUrl;
+  }
+  document.getElementById('library-search').value = '';
+  hideLibrarySuggestions();
+}
+
 // ── Init ──────────────────────────────────────────────
+// Seed library from shelf products on first run
+if (!localStorage.getItem(LIBRARY_KEY)) {
+  products.forEach(p => addToLibrary(p));
+}
+populateBrandFilter();
 populateIngredientFilter();
-renderTop3();
 renderGrid();
+
+// ── Filter & Sort panel toggles ───────────────────────
+(function initFilterSort() {
+  const filterWrap = document.getElementById('filter-wrap');
+  const sortWrap   = document.getElementById('sort-wrap');
+  if (!filterWrap || !sortWrap) return;
+
+  document.getElementById('filter-toggle-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    filterWrap.classList.toggle('open');
+    sortWrap.classList.remove('open');
+  });
+
+  // Keep filter panel open when interacting inside it
+  document.getElementById('filter-panel').addEventListener('click', e => e.stopPropagation());
+
+  // Clear all filters
+  document.getElementById('filter-clear-btn').addEventListener('click', () => {
+    ['filter-category', 'filter-brand', 'filter-rating', 'filter-ingredient', 'filter-friend-rating'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.selectedIndex = 0;
+    });
+    applySecondaryFilters();
+  });
+
+  document.getElementById('sort-clear-btn').addEventListener('click', () => {
+    sortOrder = '';
+    document.querySelectorAll('.sort-option').forEach(b => b.classList.remove('active'));
+    document.getElementById('sort-toggle-btn').classList.remove('fs-btn-active');
+    sortWrap.classList.remove('open');
+    renderGrid();
+  });
+
+  document.getElementById('sort-toggle-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    sortWrap.classList.toggle('open');
+    filterWrap.classList.remove('open');
+  });
+
+  document.querySelectorAll('.sort-option').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const newSort = btn.dataset.sort;
+      sortOrder = sortOrder === newSort ? '' : newSort;
+      document.querySelectorAll('.sort-option').forEach(b => b.classList.remove('active'));
+      if (sortOrder) btn.classList.add('active');
+      document.getElementById('sort-toggle-btn').classList.toggle('fs-btn-active', !!sortOrder);
+      sortWrap.classList.remove('open');
+      renderGrid();
+    });
+  });
+
+  document.addEventListener('click', () => {
+    filterWrap.classList.remove('open');
+    sortWrap.classList.remove('open');
+  });
+})();
+
+// Auto-apply filter from URL param (e.g. ?filter=rotation from account page)
+(function applyUrlFilter() {
+  const param = new URLSearchParams(location.search).get('filter');
+  if (!param) return;
+  if (param === 'rated') {
+    // No dedicated tab for "rated" — scroll to shelf and leave filter as All
+    document.querySelector('.shelf-page')?.scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  const tab = document.querySelector(`.filter-tab[data-filter="${param}"]`);
+  if (tab) tab.click();
+  document.querySelector('.shelf-page')?.scrollIntoView({ behavior: 'smooth' });
+})();
 products.forEach(p => { if (!p.imageFetched) fetchProductImage(p); });

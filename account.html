@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Account — Memo</title>
+  <title>My Account — Peachy</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <a href="index.html" class="nav-logo">peachy<span>.</span></a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shelf.html">My Shelf</a>
       <a href="feed.html">My Feed</a>
       <a href="articles.html">Articles</a>
-      <a href="account.html" class="active">My Account</a>
+      <div class="nav-account-menu">
+        <button class="nav-account-btn">Account ▾</button>
+        <div class="nav-account-dropdown">
+          <a href="account.html">Go to my profile</a>
+          <a href="#" onclick="logout(); return false;">Logout</a>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -24,7 +30,7 @@
 
     <!-- Profile card -->
     <div class="account-profile-card">
-      <div class="account-avatar">🌸</div>
+      <div class="account-avatar"><img src="profile.jpg" alt="Profile photo" /></div>
       <div class="account-profile-info">
         <h1 class="account-name" id="account-name">Your Name</h1>
         <p class="account-handle" id="account-handle">@handle</p>
@@ -35,22 +41,22 @@
 
     <!-- Stats row -->
     <div class="account-stats">
-      <div class="account-stat">
-        <div class="account-stat-num" id="stat-products">—</div>
-        <div class="account-stat-label">Products</div>
-      </div>
-      <div class="account-stat">
+      <a class="account-stat account-stat--link" href="shelf.html?filter=rated">
         <div class="account-stat-num" id="stat-rated">—</div>
         <div class="account-stat-label">Rated</div>
-      </div>
-      <div class="account-stat">
+      </a>
+      <a class="account-stat account-stat--link" href="shelf.html?filter=rotation">
         <div class="account-stat-num" id="stat-rotation">—</div>
         <div class="account-stat-label">In Rotation</div>
-      </div>
-      <div class="account-stat">
+      </a>
+      <a class="account-stat account-stat--link" href="shelf.html?filter=want">
         <div class="account-stat-num" id="stat-want">—</div>
         <div class="account-stat-label">Want to Try</div>
-      </div>
+      </a>
+      <a class="account-stat account-stat--link" href="shelf.html?filter=retired">
+        <div class="account-stat-num" id="stat-retired">—</div>
+        <div class="account-stat-label">Not for Me</div>
+      </a>
     </div>
 
     <!-- Sections -->
@@ -114,8 +120,16 @@
     </div>
   </div>
 
-  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+  <footer>© 2026 Peachy · made with ♡ for beauty lovers</footer>
 
+  <script src="auth.js"></script>
+  <script>
+    const _session = requireAuth();
+    const _acctBtn = document.querySelector('.nav-account-btn');
+    const _acctMenu = document.querySelector('.nav-account-menu');
+    _acctBtn.addEventListener('click', e => { e.stopPropagation(); _acctMenu.classList.toggle('open'); });
+    document.addEventListener('click', () => _acctMenu.classList.remove('open'));
+</script>
   <script src="account.js"></script>
 </body>
 </html>

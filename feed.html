@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Feed — Memo</title>
+  <title>My Feed — Peachy</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <a href="index.html" class="nav-logo">peachy<span>.</span></a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shelf.html">My Shelf</a>
       <a href="feed.html" class="active">My Feed</a>
       <a href="articles.html">Articles</a>
-      <a href="account.html">My Account</a>
+      <div class="nav-account-menu">
+        <button class="nav-account-btn">Account ▾</button>
+        <div class="nav-account-dropdown">
+          <a href="account.html">Go to my profile</a>
+          <a href="#" onclick="logout(); return false;">Logout</a>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -30,11 +36,11 @@
       <div class="sidebar-section">
         <p class="section-label">Products trending this week</p>
         <ul class="trending-list">
-          <li><span class="trending-rank">1</span> The Ordinary Niacinamide 10% + Zinc</li>
-          <li><span class="trending-rank">2</span> Rhode Peptide Lip Treatment</li>
-          <li><span class="trending-rank">3</span> Charlotte Tilbury Flawless Filter</li>
-          <li><span class="trending-rank">4</span> Laneige Lip Sleeping Mask</li>
-          <li><span class="trending-rank">5</span> EltaMD UV Clear SPF 46</li>
+          <li data-product-name="Niacinamide 10% + Zinc"><span class="trending-rank">1</span> The Ordinary Niacinamide 10% + Zinc</li>
+          <li data-product-name="Peptide Lip Treatment"><span class="trending-rank">2</span> Rhode Peptide Lip Treatment</li>
+          <li data-product-name="Flawless Filter"><span class="trending-rank">3</span> Charlotte Tilbury Flawless Filter</li>
+          <li data-product-name="Lip Sleeping Mask"><span class="trending-rank">4</span> Laneige Lip Sleeping Mask</li>
+          <li data-product-name="UV Clear SPF 46"><span class="trending-rank">5</span> EltaMD UV Clear SPF 46</li>
         </ul>
       </div>
       <div class="sidebar-section">
@@ -45,6 +51,14 @@
 
   </div>
 
+  <script src="auth.js"></script>
+  <script>
+    const _session = requireAuth();
+    const _acctBtn = document.querySelector('.nav-account-btn');
+    const _acctMenu = document.querySelector('.nav-account-menu');
+    _acctBtn.addEventListener('click', e => { e.stopPropagation(); _acctMenu.classList.toggle('open'); });
+    document.addEventListener('click', () => _acctMenu.classList.remove('open'));
+</script>
   <script src="feed.js"></script>
 </body>
 </html>

@@ -90,14 +90,16 @@ const ALL_PEOPLE = [
 ];
 
 // ── State ─────────────────────────────────────────────
-let following    = JSON.parse(localStorage.getItem('memo-following') || '["sophiek","miaderm","rinat","jaker","lunav"]');
-let followers    = JSON.parse(localStorage.getItem('memo-followers') || '["sophiek","rinat","lunav"]');
-let activeFilter = 'all';
-let activePerson = null;
-let viewerFilter = 'all';
+let following    = JSON.parse(localStorage.getItem(userKey('peachy-following')) || '["sophiek","miaderm","rinat","jaker","lunav"]');
+let followers    = JSON.parse(localStorage.getItem(userKey('peachy-followers')) || '["sophiek","rinat","lunav"]');
+let activeFilter        = 'all';
+let activePerson        = null;
+let viewerFilter        = 'all';
+let viewerFilterCat     = '';
+let viewerFilterRating  = 0;
 
 function saveFollowing() {
-  localStorage.setItem('memo-following', JSON.stringify(following));
+  localStorage.setItem(userKey('peachy-following'), JSON.stringify(following));
 }
 
 // ── Render People Grid ────────────────────────────────
@@ -153,8 +155,10 @@ function viewShelf(personId) {
     return;
   }
 
-  activePerson = person;
-  viewerFilter = 'all';
+  activePerson       = person;
+  viewerFilter       = 'all';
+  viewerFilterCat    = '';
+  viewerFilterRating = 0;
 
   document.getElementById('viewer-avatar').innerHTML = `<img src="${person.avatar}" alt="${escHtml(person.name)}">`;
   document.getElementById('viewer-name').textContent   = person.name;
@@ -163,6 +167,10 @@ function viewShelf(personId) {
   // Reset viewer filter tabs
   document.querySelectorAll('[data-vfilter]').forEach(t => t.classList.remove('active'));
   document.querySelector('[data-vfilter="all"]').classList.add('active');
+
+  // Reset secondary filter dropdowns
+  document.getElementById('viewer-filter-category').value = '';
+  document.getElementById('viewer-filter-rating').value   = '0';
 
   renderViewerGrid();
 
@@ -179,13 +187,22 @@ function closeShelf() {
   renderPeople();
 }
 
+function applyViewerSecondaryFilters() {
+  viewerFilterCat    = document.getElementById('viewer-filter-category').value;
+  viewerFilterRating = parseInt(document.getElementById('viewer-filter-rating').value || '0');
+  renderViewerGrid();
+}
+
 function renderViewerGrid() {
   const grid = document.getElementById('viewer-grid');
   if (!activePerson) return;
 
-  const filtered = viewerFilter === 'all'
-    ? activePerson.products
-    : activePerson.products.filter(p => p.status === viewerFilter);
+  const filtered = activePerson.products.filter(p => {
+    if (viewerFilter !== 'all' && p.status !== viewerFilter) return false;
+    if (viewerFilterCat && p.category !== viewerFilterCat) return false;
+    if (viewerFilterRating > 0 && p.rating < viewerFilterRating) return false;
+    return true;
+  });
 
   if (filtered.length === 0) {
     grid.innerHTML = `

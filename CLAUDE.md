@@ -1,8 +1,8 @@
-# Memo — Project Reference
+# Peachy — Project Reference
 
 ## What is this app?
 
-Memo is a "Goodreads for beauty products." Users build a personal shelf of skincare, makeup, haircare, and other beauty products — logging each one with a rating, status, and personal notes. There's also a Friends page to browse shelves from friends and influencers.
+Peachy is a "Goodreads for beauty products." Users build a personal shelf of skincare, makeup, haircare, and other beauty products — logging each one with a rating, status, and personal notes. There's also a Friends page to browse shelves from friends and influencers.
 
 The app is entirely frontend — no backend, no database. Data is stored in `localStorage`. It is a plain HTML/CSS/JS project with no frameworks or build tools.
 
@@ -32,7 +32,7 @@ memo-app/
 - Hero section: eyebrow label, large h1 with italic emphasis, description, two CTA buttons ("Start My Shelf" and "See How It Works")
 - "How it works" section: 4 cards with decorative icons (✦ ★ ◎ ♡), explaining Add, Rate, Set Status, and Follow Friends
 - "Shelves to explore" community section: 4 placeholder profile cards (Sophie K., Mia Derm, Rina T., Jake R.) with colored dot swatches
-- Footer: `© 2026 Memo · made with ♡ for beauty lovers`
+- Footer: `© 2026 Peachy · made with ♡ for beauty lovers`
 
 ### `shelf.html` — My Shelf
 - Header with "My Shelf" title and live product count
@@ -60,8 +60,8 @@ memo-app/
 
 ## Data & State
 
-- **Products** stored in `localStorage` under key `memo-products`
-- **Following list** stored in `localStorage` under key `memo-following`
+- **Products** stored in `localStorage` under key `peachy-products`
+- **Following list** stored in `localStorage` under key `peachy-following`
 - Seed products pre-populate the shelf on first load (The Ordinary, Rhode, Rare Beauty, Olaplex, Summer Fridays, Charlotte Tilbury)
 - Seed people are hardcoded in `friends.js` — 3 friends (Sophie K., Rina T., Jake R.) and 2 influencers (Mia Derm, Luna V.)
 - Product images are fetched automatically from the Open Beauty Facts API (`world.openbeautyfacts.org`) after a product is added; emoji fallback shown if no image found

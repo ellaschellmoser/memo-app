@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Product — Memo</title>
+  <title>Product — Peachy</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <a href="index.html" class="nav-logo">peachy<span>.</span></a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shelf.html">My Shelf</a>
       <a href="feed.html">My Feed</a>
       <a href="articles.html">Articles</a>
-      <a href="account.html">My Account</a>
+      <div class="nav-account-menu">
+        <button class="nav-account-btn">Account ▾</button>
+        <div class="nav-account-dropdown">
+          <a href="account.html">Go to my profile</a>
+          <a href="#" onclick="logout(); return false;">Logout</a>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -28,8 +34,16 @@
     </div>
   </main>
 
-  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+  <footer>© 2026 Peachy · made with ♡ for beauty lovers</footer>
 
+  <script src="auth.js"></script>
+  <script>
+    const _session = requireAuth();
+    const _acctBtn = document.querySelector('.nav-account-btn');
+    const _acctMenu = document.querySelector('.nav-account-menu');
+    _acctBtn.addEventListener('click', e => { e.stopPropagation(); _acctMenu.classList.toggle('open'); });
+    document.addEventListener('click', () => _acctMenu.classList.remove('open'));
+</script>
   <script src="app.js"></script>
   <script src="product.js"></script>
 </body>

@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Memo — Your Beauty Shelf</title>
+  <title>Peachy — Your Beauty Shelf</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <a href="index.html" class="nav-logo">peachy<span>.</span></a>
     <div class="nav-links">
       <a href="index.html" class="active">Home</a>
       <a href="shelf.html">My Shelf</a>
       <a href="feed.html">My Feed</a>
       <a href="articles.html">Articles</a>
-      <a href="account.html">My Account</a>
+      <div class="nav-account-menu">
+        <button class="nav-account-btn">Account ▾</button>
+        <div class="nav-account-dropdown">
+          <a href="account.html">Go to my profile</a>
+          <a href="#" onclick="logout(); return false;">Logout</a>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -28,7 +34,7 @@
     <div class="hero-content">
       <p class="hero-eyebrow">Your beauty library</p>
       <h1>Track, rate &amp; discover<br><em>beauty products</em> you love.</h1>
-      <p>Memo is like Goodreads for your skincare, makeup, and haircare routine. Build your personal shelf, write honest notes, and see what your friends are reaching for.</p>
+      <p>Peachy is your trustworthy source to empower confident beauty purchases. Build your personal shelf, write honest notes, and see what your friends are reaching for.</p>
       <div class="hero-actions">
         <a href="shelf.html" class="btn btn-primary">Start My Shelf</a>
         <a href="#how" class="btn btn-outline">See How It Works</a>
@@ -45,7 +51,7 @@
         <div class="how-card">
           <div class="how-icon">✦</div>
           <h3>Add Products</h3>
-          <p>Log any product — serum, foundation, shampoo — to your personal shelf.</p>
+          <p>Log any product to your personal shelf.</p>
         </div>
         <div class="how-card">
           <div class="how-icon">★</div>
@@ -55,7 +61,7 @@
         <div class="how-card">
           <div class="how-icon">◎</div>
           <h3>Set a Status</h3>
-          <p>Mark it <em>In Rotation</em>, <em>Retired</em>, or <em>Want to Try</em> as your routine evolves.</p>
+          <p>Mark it <em>In Rotation</em>, <em>Want to Try</em>, or <em>Not for Me</em> as your routine evolves.</p>
         </div>
         <div class="how-card">
           <div class="how-icon">♡</div>
@@ -73,7 +79,7 @@
         <p class="section-label">Community</p>
         <h2>Shelves to explore</h2>
       </div>
-      <a href="#" class="btn btn-ghost">Browse all →</a>
+      <a href="friends.html" class="btn btn-ghost">Browse all →</a>
     </div>
     <div class="shelf-previews">
       <div class="shelf-preview-card">
@@ -103,7 +109,15 @@
     </div>
   </section>
 
-  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+  <footer>© 2026 Peachy · made with ♡ for beauty lovers</footer>
 
+  <script src="auth.js"></script>
+  <script>
+    const _session = requireAuth();
+    const _acctBtn = document.querySelector('.nav-account-btn');
+    const _acctMenu = document.querySelector('.nav-account-menu');
+    _acctBtn.addEventListener('click', e => { e.stopPropagation(); _acctMenu.classList.toggle('open'); });
+    document.addEventListener('click', () => _acctMenu.classList.remove('open'));
+</script>
 </body>
 </html>

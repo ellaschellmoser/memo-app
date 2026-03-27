@@ -6,11 +6,11 @@ const DEFAULT_PROFILE = {
 };
 
 function loadProfile() {
-  return JSON.parse(localStorage.getItem('memo-profile') || JSON.stringify(DEFAULT_PROFILE));
+  return JSON.parse(localStorage.getItem(userKey('peachy-profile')) || JSON.stringify(DEFAULT_PROFILE));
 }
 
 function saveProfileData(data) {
-  localStorage.setItem('memo-profile', JSON.stringify(data));
+  localStorage.setItem(userKey('peachy-profile'), JSON.stringify(data));
 }
 
 function renderProfile() {
@@ -22,23 +22,23 @@ function renderProfile() {
 
 // ── Stats ─────────────────────────────────────────────
 function renderStats() {
-  const products = JSON.parse(localStorage.getItem('memo-products') || '[]');
-  document.getElementById('stat-products').textContent = products.length;
+  const products = JSON.parse(localStorage.getItem(userKey('peachy-products-v7')) || '[]');
   document.getElementById('stat-rated').textContent    = products.filter(p => p.rating > 0).length;
   document.getElementById('stat-rotation').textContent = products.filter(p => p.status === 'rotation').length;
   document.getElementById('stat-want').textContent     = products.filter(p => p.status === 'want').length;
+  document.getElementById('stat-retired').textContent  = products.filter(p => p.status === 'retired').length;
 }
 
 // ── Preferences ───────────────────────────────────────
 function loadPrefs() {
-  const prefs = JSON.parse(localStorage.getItem('memo-prefs') || '{}');
+  const prefs = JSON.parse(localStorage.getItem(userKey('peachy-prefs')) || '{}');
   if (prefs.skin)       document.getElementById('pref-skin').value       = prefs.skin;
   if (prefs.concerns)   document.getElementById('pref-concerns').value   = prefs.concerns;
   if (prefs.categories) document.getElementById('pref-categories').value = prefs.categories;
 }
 
 function savePrefs() {
-  localStorage.setItem('memo-prefs', JSON.stringify({
+  localStorage.setItem(userKey('peachy-prefs'), JSON.stringify({
     skin:       document.getElementById('pref-skin').value,
     concerns:   document.getElementById('pref-concerns').value,
     categories: document.getElementById('pref-categories').value,

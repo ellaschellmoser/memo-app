@@ -55,7 +55,7 @@ function renderDetail(p) {
   const totalCount  = allRatings.length;
 
   const communityHtml = totalCount > 0 ? `
-    <div class="community-rating">
+    <div class="community-rating" onclick="document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'})" style="cursor:pointer">
       <span class="community-avg-num">${avgRating.toFixed(1)}</span>
       <div class="community-avg-stars">
         ${[1,2,3,4,5].map(n =>
@@ -65,19 +65,21 @@ function renderDetail(p) {
       <span class="community-count">${totalCount} rating${totalCount !== 1 ? 's' : ''}</span>
     </div>` : '';
 
-  const following = JSON.parse(localStorage.getItem('memo-following') || '[]');
+  const following = JSON.parse(localStorage.getItem(userKey('peachy-following')) || '[]');
   const friendHandles = new Set(following.map(id => '@' + id));
+  const myHandle = (JSON.parse(localStorage.getItem(userKey('peachy-profile')) || '{}').handle || '@you').toLowerCase();
 
-  const friendReviews = commRatings.filter(r => friendHandles.has(r.handle));
-  const otherReviews  = commRatings.filter(r => !friendHandles.has(r.handle));
+  const myReviews     = commRatings.filter(r => r.handle.toLowerCase() === myHandle);
+  const friendReviews = commRatings.filter(r => r.handle.toLowerCase() !== myHandle && friendHandles.has(r.handle));
+  const otherReviews  = commRatings.filter(r => r.handle.toLowerCase() !== myHandle && !friendHandles.has(r.handle));
 
-  function reviewRow(r) {
+  function reviewRow(r, isMe = false) {
     return `
-      <div class="review-row">
+      <div class="review-row${isMe ? ' review-row--mine' : ''}">
         <div class="review-header">
           <img class="review-avatar" src="${escHtml(r.avatar)}" alt="${escHtml(r.name)}">
           <div class="review-meta">
-            <div class="review-name">${escHtml(r.name)}</div>
+            <div class="review-name">${escHtml(r.name)}${isMe ? ' <span class="review-you-badge">You</span>' : ''}</div>
             <div class="review-handle">${escHtml(r.handle)}</div>
           </div>
           <div class="review-stars">
@@ -90,17 +92,37 @@ function renderDetail(p) {
       </div>`;
   }
 
-  const reviewsHtml = commRatings.length ? `
-    <div class="reviews-section">
-      <h3 class="reviews-title">Ratings &amp; Reviews</h3>
+  const existingReviewsHtml = commRatings.length ? `
+      ${myReviews.length ? `
+        <p class="reviews-sublabel">Your Review</p>
+        <div class="reviews-list">${myReviews.map(r => reviewRow(r, true)).join('')}</div>
+      ` : ''}
       ${friendReviews.length ? `
         <p class="reviews-sublabel">Friends</p>
-        <div class="reviews-list">${friendReviews.map(reviewRow).join('')}</div>
+        <div class="reviews-list">${friendReviews.map(r => reviewRow(r)).join('')}</div>
       ` : ''}
       ${otherReviews.length ? `
-        <div class="reviews-list">${otherReviews.map(reviewRow).join('')}</div>
-      ` : ''}
-    </div>` : '';
+        <div class="reviews-list">${otherReviews.map(r => reviewRow(r)).join('')}</div>
+      ` : ''}` : '';
+
+  const reviewsHtml = `
+    <div class="reviews-section" id="reviews-section">
+      <div class="reviews-title-row">
+        <h3 class="reviews-title">Ratings &amp; Reviews</h3>
+        <button class="btn btn-outline" id="write-review-btn" onclick="toggleWriteReview()">✎ Write a Review</button>
+      </div>
+      <div class="write-review-form" id="write-review-form" style="display:none">
+        <div class="write-review-stars" id="write-review-stars">
+          ${[1,2,3,4,5].map(n => `<span class="star" data-val="${n}">★</span>`).join('')}
+        </div>
+        <textarea id="write-review-text" rows="3" placeholder="Share your thoughts about this product…"></textarea>
+        <div class="write-review-actions">
+          <button class="btn btn-ghost" onclick="toggleWriteReview()">Cancel</button>
+          <button class="btn btn-primary" onclick="submitReview()">Post Review</button>
+        </div>
+      </div>
+      <div id="existing-reviews">${existingReviewsHtml}</div>
+    </div>`;
 
   card.innerHTML = `
     <div class="product-layout-stacked">
@@ -142,7 +164,7 @@ function renderDetail(p) {
       </div>
 
       <div class="form-group">
-        <label>Notes</label>
+        <label>Private Notes</label>
         <textarea id="detail-note" rows="5">${escHtml(p.note)}</textarea>
       </div>
 
@@ -153,17 +175,7 @@ function renderDetail(p) {
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Pin to My Current Favorites</label>
-        <div class="fav-slot-picker" id="fav-slot-picker">
-          <button type="button" class="fav-slot-btn ${!p.favoriteSlot ? 'active' : ''}" data-slot="0">None</button>
-          <button type="button" class="fav-slot-btn ${p.favoriteSlot === 1 ? 'active' : ''}" data-slot="1"># 1</button>
-          <button type="button" class="fav-slot-btn ${p.favoriteSlot === 2 ? 'active' : ''}" data-slot="2"># 2</button>
-          <button type="button" class="fav-slot-btn ${p.favoriteSlot === 3 ? 'active' : ''}" data-slot="3"># 3</button>
-        </div>
-      </div>
-
-      <div class="detail-actions">
+<div class="detail-actions">
         <button class="btn btn-primary" onclick="saveChanges()">Save Changes</button>
         <span class="save-feedback" id="save-feedback">Saved!</span>
         <div class="delete-zone">
@@ -195,6 +207,16 @@ function renderDetail(p) {
     });
     star.addEventListener('mouseenter', () => updateDetailStars(parseInt(star.dataset.val)));
     star.addEventListener('mouseleave', () => updateDetailStars(detailRating));
+  });
+
+  // Wire up write-review star interactions
+  document.querySelectorAll('#write-review-stars .star').forEach(star => {
+    star.addEventListener('click', () => {
+      writeReviewRating = parseInt(star.dataset.val);
+      updateWriteReviewStars(writeReviewRating);
+    });
+    star.addEventListener('mouseenter', () => updateWriteReviewStars(parseInt(star.dataset.val)));
+    star.addEventListener('mouseleave', () => updateWriteReviewStars(writeReviewRating));
   });
 }
 
@@ -263,4 +285,45 @@ function executeDelete() {
   if (idx !== -1) products.splice(idx, 1);
   save();
   location.href = 'shelf.html';
+}
+
+// ── Write a Review ────────────────────────────────────
+let writeReviewRating = 0;
+
+function toggleWriteReview() {
+  const form = document.getElementById('write-review-form');
+  const opening = form.style.display === 'none';
+  form.style.display = opening ? '' : 'none';
+  if (opening) {
+    writeReviewRating = 0;
+    updateWriteReviewStars(0);
+    document.getElementById('write-review-text').value = '';
+  }
+}
+
+function updateWriteReviewStars(n) {
+  document.querySelectorAll('#write-review-stars .star').forEach(s => {
+    s.classList.toggle('filled', parseInt(s.dataset.val) <= n);
+  });
+}
+
+function submitReview() {
+  const text = document.getElementById('write-review-text').value.trim();
+  if (!text && writeReviewRating === 0) return;
+
+  const profile = JSON.parse(localStorage.getItem(userKey('peachy-profile')) || '{}');
+  const review = {
+    name:    profile.name   || 'You',
+    handle:  profile.handle || '@you',
+    avatar:  'profile.jpg',
+    rating:  writeReviewRating,
+    comment: text || '—',
+  };
+
+  if (!product.communityRatings) product.communityRatings = [];
+  product.communityRatings.push(review);
+  save();
+
+  renderDetail(product);
+  setTimeout(() => document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth' }), 50);
 }

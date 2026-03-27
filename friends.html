@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Friends — Memo</title>
+  <title>Friends — Peachy</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a href="index.html" class="nav-logo">memo<span>.</span></a>
+    <a href="index.html" class="nav-logo">peachy<span>.</span></a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shelf.html">My Shelf</a>
       <a href="feed.html">My Feed</a>
       <a href="articles.html">Articles</a>
-      <a href="account.html" class="active">My Account</a>
+      <div class="nav-account-menu">
+        <button class="nav-account-btn">Account ▾</button>
+        <div class="nav-account-dropdown">
+          <a href="account.html">Go to my profile</a>
+          <a href="#" onclick="logout(); return false;">Logout</a>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -62,6 +68,25 @@
         <button class="filter-tab" data-vfilter="retired">Not for Me</button>
       </div>
 
+      <!-- Secondary filters -->
+      <div class="secondary-filters">
+        <select id="viewer-filter-category" onchange="applyViewerSecondaryFilters()">
+          <option value="">All Categories</option>
+          <option value="skincare">Skincare</option>
+          <option value="makeup">Makeup</option>
+          <option value="haircare">Haircare</option>
+          <option value="bodycare">Body Care</option>
+          <option value="fragrance">Fragrance</option>
+          <option value="tools">Tools</option>
+        </select>
+        <select id="viewer-filter-rating" onchange="applyViewerSecondaryFilters()">
+          <option value="0">All Ratings</option>
+          <option value="5">★★★★★</option>
+          <option value="4">★★★★+</option>
+          <option value="3">★★★+</option>
+        </select>
+      </div>
+
       <div class="product-grid" id="viewer-grid"></div>
     </div>
 
@@ -73,11 +98,8 @@
       <h2>Follow Someone</h2>
       <div class="form-group">
         <label>Username or Handle</label>
-        <input type="text" id="follow-input" placeholder="e.g. @sophiek" />
+        <input type="text" id="follow-input" placeholder="@handle" />
       </div>
-      <p style="font-family:'Helvetica Neue',sans-serif;font-size:.82rem;color:var(--muted);margin-top:-.5rem;margin-bottom:1rem;">
-        Try: @sophiek, @miaderm, @rinat, @jaker, or @lunav
-      </p>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeFollowModal()">Cancel</button>
         <button class="btn btn-primary" onclick="followByHandle()">Follow</button>
@@ -85,8 +107,16 @@
     </div>
   </div>
 
-  <footer>© 2026 Memo · made with ♡ for beauty lovers</footer>
+  <footer>© 2026 Peachy · made with ♡ for beauty lovers</footer>
 
+  <script src="auth.js"></script>
+  <script>
+    const _session = requireAuth();
+    const _acctBtn = document.querySelector('.nav-account-btn');
+    const _acctMenu = document.querySelector('.nav-account-menu');
+    _acctBtn.addEventListener('click', e => { e.stopPropagation(); _acctMenu.classList.toggle('open'); });
+    document.addEventListener('click', () => _acctMenu.classList.remove('open'));
+</script>
   <script src="friends.js"></script>
 </body>
 </html>
