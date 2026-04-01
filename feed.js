@@ -184,7 +184,7 @@ function renderAdded(post, idx) {
   return `
     <article class="feed-card">
       ${userHeader(post.user, post.time)}
-      <p class="post-action-label">added to shelf</p>
+      <p class="post-action-label">added to library</p>
       <div class="post-product-block">
         <div class="post-product-emoji">${post.product.emoji}</div>
         <div>

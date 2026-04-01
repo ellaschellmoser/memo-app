@@ -3,7 +3,26 @@
     "allow": [
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(gh repo:*)",
+      "Bash(/opt/homebrew/bin/gh repo:*)",
+      "Bash(node:*)",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Rhode%20Peptide%20Glazing%20Fluid&action=process&json=1&page_size=3\")",
+      "Bash(jq -r \".products[0] | .image_url // .image_front_url // \"\"not found\"\"\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Rare%20Beauty%20Soft%20Pinch%20Liquid%20Blush&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Olaplex%20No.3%20Hair%20Perfector&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Summer%20Fridays%20Jet%20Lag%20Mask&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Charlotte%20Tilbury%20Flawless%20Filter&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Laneige%20Lip%20Sleeping%20Mask&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=NARS%20Sheer%20Glow%20Foundation&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Briogeo%20Don%27t%20Despair%20Repair%20Deep%20Conditioning%20Mask&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Drunk%20Elephant%20Protini%20Polypeptide%20Cream&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Westman%20Atelier%20Vital%20Skin%20Foundation%20Stick&action=process&json=1&page_size=3\")",
+      "Bash(curl -s \"https://world.openbeautyfacts.org/cgi/search.pl?search_terms=Sol%20de%20Janeiro%20Brazilian%20Bum%20Bum%20Cream&action=process&json=1&page_size=3\")",
+      "Bash(cp \"/Users/ellaschellmoser/Downloads/Screenshot_2026-03-25_at_11.35.21-removebg-preview.png\" /Users/ellaschellmoser/Desktop/memo-app/images/the-ordinary-niacinamide.png)",
+      "Bash(cp \"/Users/ellaschellmoser/Downloads/Screenshot_2026-03-25_at_11.38.48-removebg-preview.png\" /Users/ellaschellmoser/Desktop/memo-app/images/rare-beauty-soft-pinch-blush.png)",
+      "Bash(git push:*)",
+      "WebFetch(domain:www.rhodeskin.com)"
     ]
   }
 }

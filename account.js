@@ -2,7 +2,7 @@
 const DEFAULT_PROFILE = {
   name: 'Your Name',
   handle: '@handle',
-  bio: 'Beauty lover. Building my shelf one product at a time.',
+  bio: 'Beauty lover. Building my library one product at a time.',
 };
 
 function loadProfile() {

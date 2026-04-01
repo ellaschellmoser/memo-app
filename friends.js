@@ -117,7 +117,7 @@ function renderPeople() {
       <div class="empty-state" style="grid-column:1/-1">
         <div class="empty-icon">♡</div>
         <h3>Nobody here yet</h3>
-        <p>Follow someone to see their shelf.</p>
+        <p>Follow someone to see their library.</p>
         <button class="btn btn-primary" onclick="openFollowModal()">+ Follow Someone</button>
       </div>`;
     return;
@@ -138,7 +138,7 @@ function renderPeople() {
         <p class="person-bio">${escHtml(person.bio)}</p>
         <div class="person-footer">
           <span class="person-count">${person.products.length} products</span>
-          <span class="person-cta">${isActive ? 'Viewing shelf ↓' : 'View shelf →'}</span>
+          <span class="person-cta">${isActive ? 'Viewing library ↓' : 'View library →'}</span>
         </div>
       </div>`;
   }).join('');

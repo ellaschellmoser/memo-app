@@ -30,7 +30,7 @@ function renderNotFound() {
       <div class="empty-icon">✦</div>
       <h3>Product not found</h3>
       <p>This product may have been removed or the link is invalid.</p>
-      <a href="shelf.html" class="btn btn-primary">Back to My Shelf</a>
+      <a href="shelf.html" class="btn btn-primary">Back to My Library</a>
     </div>`;
 }
 
@@ -170,9 +170,7 @@ function renderDetail(p) {
 
       <div class="form-group ingredients-group">
         <label>Ingredients</label>
-        <div class="ingredients-pills">
-          ${renderIngredientPills(p.ingredientsList || '')}
-        </div>
+        ${renderIngredientChecker(p.ingredientsList || '')}
       </div>
 
 <div class="detail-actions">
@@ -218,6 +216,113 @@ function renderDetail(p) {
     star.addEventListener('mouseenter', () => updateWriteReviewStars(parseInt(star.dataset.val)));
     star.addEventListener('mouseleave', () => updateWriteReviewStars(writeReviewRating));
   });
+}
+
+// ── Ingredient Analysis ──────────────────────────────
+function analyzeIngredients(ingredientsList) {
+  if (!ingredientsList.trim()) return { all: [], recommended: [], lowConcern: [], individual: [], counts: { recommended: 0, lowConcern: 0, individual: 0 } };
+  
+  const ingredients = ingredientsList.split(',')
+    .map(i => i.trim())
+    .filter(Boolean)
+    .map(name => {
+      const data = getIngredientSafety(name);
+      return { name, ...data };
+    });
+  
+  const counts = { recommended: 0, lowConcern: 0, individual: 0 };
+  const categorized = { recommended: [], lowConcern: [], individual: [] };
+  
+  ingredients.forEach(ing => {
+    if (ing.safety === 'recommended') {
+      categorized.recommended.push(ing);
+      counts.recommended++;
+    } else if (ing.safety === 'low-concern') {
+      categorized.lowConcern.push(ing);
+      counts.lowConcern++;
+    } else {
+      categorized.individual.push(ing);
+      counts.individual++;
+    }
+  });
+  
+  return { all: ingredients, ...categorized, counts };
+}
+
+function renderIngredientChecker(ingredientsList) {
+  const analysis = analyzeIngredients(ingredientsList);
+  const total = analysis.all.length;
+  
+  if (total === 0) {
+    return '<div class="ingredients-checker-empty">No ingredients added yet.</div>';
+  }
+  
+  const summaryHtml = `
+    <div class="ingredient-checker-summary">
+      <div class="ingredient-checker-count"><strong>${total}</strong> total</div>
+      ${analysis.counts.recommended > 0 ? `<div class="ingredient-checker-badge recommended"><span>${analysis.counts.recommended}</span> Recommended</div>` : ''}
+      ${analysis.counts.lowConcern > 0 ? `<div class="ingredient-checker-badge low-concern"><span>${analysis.counts.lowConcern}</span> Low Concern</div>` : ''}
+      ${analysis.counts.individual > 0 ? `<div class="ingredient-checker-badge individual"><span>${analysis.counts.individual}</span> Individual Rating</div>` : ''}
+    </div>
+  `;
+  
+  const pillsHtml = `
+    <div class="ingredient-pills-grid">
+      ${analysis.all.map((ing, idx) => {
+        const safetyClass = ing.safety === 'individual-rating' ? 'individual-rating' : ing.safety;
+        return `<span class="ingredient-pill ingredient-pill--${safetyClass}" data-idx="${idx}" onclick="toggleIngredientDetail(event, ${idx})" title="${escHtml(ing.name)}">${escHtml(ing.name)}</span>`;
+      }).join('')}
+    </div>
+  `;
+  
+  return `<div class="ingredients-checker">${summaryHtml}${pillsHtml}</div>`;
+}
+
+function toggleIngredientDetail(event, idx) {
+  event.stopPropagation();
+  const pill = event.target;
+  const allPopovers = document.querySelectorAll('.ingredient-detail-popover');
+  allPopovers.forEach(p => p.remove());
+  
+  if (pill.dataset.popoverOpen) {
+    delete pill.dataset.popoverOpen;
+    return;
+  }
+  
+  const ingredientsList = document.querySelector('.ingredients-checker')?.innerText || '';
+  const analysis = analyzeIngredients(product.ingredientsList || '');
+  const ing = analysis.all[idx];
+  
+  if (!ing) return;
+  
+  const popover = document.createElement('div');
+  popover.className = 'ingredient-detail-popover';
+  const safetyLabel = ing.safety === 'recommended' ? '✓ Recommended' : ing.safety === 'low-concern' ? '◎ Low Concern' : '⚠ Individual Rating';
+  popover.innerHTML = `
+    <div class="popover-content">
+      <div class="popover-name">${escHtml(ing.name)}</div>
+      <div class="popover-safety">
+        <span class="popover-safety-badge popover-safety--${ing.safety === 'individual-rating' ? 'individual-rating' : ing.safety}">${safetyLabel}</span>
+      </div>
+      <p class="popover-description">${escHtml(ing.description)}</p>
+    </div>
+  `;
+  
+  document.body.appendChild(popover);
+  pill.dataset.popoverOpen = 'true';
+  
+  const rect = pill.getBoundingClientRect();
+  popover.style.position = 'fixed';
+  popover.style.left = Math.max(10, rect.left - 150) + 'px';
+  popover.style.top = (rect.top - popover.offsetHeight - 10) + 'px';
+  
+  setTimeout(() => {
+    document.addEventListener('click', function closePop() {
+      popover.remove();
+      delete pill.dataset.popoverOpen;
+      document.removeEventListener('click', closePop);
+    });
+  }, 0);
 }
 
 function renderIngredientPills(raw) {

@@ -16,6 +16,35 @@ const STATUS_LABELS = {
 
 const FAV_TITLE_KEY = 'peachy-fav-title';
 
+// ── Ingredient Safety Database ───────────────────────
+const INGREDIENT_DATABASE = {
+  'niacinamide': { safety: 'recommended', name: 'Niacinamide (Vitamin B3)', description: 'Helps reduce pores, controls sebum, and strengthens the skin barrier. Generally very well-tolerated.' },
+  'sodium hyaluronate': { safety: 'recommended', name: 'Sodium Hyaluronate', description: 'Humectant that holds up to 1000x its weight in water. Provides deep hydration without heaviness.' },
+  'glycerin': { safety: 'recommended', name: 'Glycerin', description: 'Powerful humectant that draws moisture into the skin. One of the most effective and gentle hydrating ingredients.' },
+  'panthenol': { safety: 'recommended', name: 'Panthenol (Pro-Vitamin B5)', description: 'Moisturizes and soothes the skin. Helps strengthen the skin barrier and reduce inflammation.' },
+  'allantoin': { safety: 'recommended', name: 'Allantoin', description: 'Soothing and healing ingredient that protects skin and reduces irritation. Safe for sensitive skin.' },
+  'zinc pca': { safety: 'recommended', name: 'Zinc PCA', description: 'Regulates sebum production and has antimicrobial properties. Good for oily and acne-prone skin.' },
+  'peptides': { safety: 'recommended', name: 'Peptides', description: 'Support collagen production and skin firmness. Help improve skin texture over time.' },
+  'hyaluronic acid': { safety: 'recommended', name: 'Hyaluronic Acid', description: 'Powerful humectant for hydration. Can hold moisture and plump the skin beautifully.' },
+  'vitamin e': { safety: 'recommended', name: 'Vitamin E (Tocopheryl Acetate)', description: 'Antioxidant that protects against free radical damage and supports skin barrier function.' },
+  'aloe vera': { safety: 'recommended', name: 'Aloe Barbadensis Leaf Juice', description: 'Soothing and hydrating. Reduces inflammation and supports sensitive or irritated skin.' },
+  'water': { safety: 'recommended', name: 'Water', description: 'Primary solvent in skincare. Essential, hydrating, and universally safe.' },
+  'phenoxyethanol': { safety: 'low-concern', name: 'Phenoxyethanol', description: 'Preservative used in small amounts to prevent bacterial growth. Safe at approved concentrations (~1%).' },
+  'caprylyl glycol': { safety: 'low-concern', name: 'Caprylyl Glycol', description: 'Humectant and preservative booster. Generally well-tolerated and safe for most skin types.' },
+  'ethylhexylglycerin': { safety: 'low-concern', name: 'Ethylhexylglycerin', description: 'Preservative that prevents product spoilage. Safe at typical concentrations used in cosmetics.' },
+  'carbomer': { safety: 'low-concern', name: 'Carbomer', description: 'Thickening agent that creates gel or cream textures. Generally recognized as safe and non-irritating.' },
+  'dimethicone': { safety: 'low-concern', name: 'Dimethicone', description: 'Silicone that creates a smooth feel and protective barrier. Non-comedogenic at normal use levels.' },
+  'salicylic acid': { safety: 'individual-rating', name: 'Salicylic Acid (BHA)', description: 'Chemical exfoliant for acne-prone skin. May cause irritation, dryness, or sensitivity in some users.' },
+  'sulfur': { safety: 'individual-rating', name: 'Sulfur', description: 'Anti-bacterial and keratolytic. Can be drying; assess tolerance. Not recommended for very sensitive skin.' },
+  'zinc oxide': { safety: 'recommended', name: 'Zinc Oxide', description: 'Physical UV filter and soothing mineral. Generally safe; may leave a slight white cast.' },
+  'fragrance': { safety: 'individual-rating', name: 'Fragrance', description: 'Added scent. May trigger sensitivities or irritation. Skip if you have sensitive skin.' },
+};
+
+function getIngredientSafety(ingredientName) {
+  const normalized = ingredientName.toLowerCase().trim();
+  return INGREDIENT_DATABASE[normalized] || { safety: 'unknown', name: ingredientName, description: 'Research this ingredient independently if you have concerns.' };
+}
+
 // ── Product Library ────────────────────────────────────
 const LIBRARY_KEY = 'peachy-library';
 
@@ -451,7 +480,7 @@ function renderGrid() {
     grid.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">✦</div>
-        <h3>${activeFilter === 'all' ? 'Your shelf is empty' : 'Nothing here yet'}</h3>
+        <h3>${activeFilter === 'all' ? 'Your library is empty' : 'Nothing here yet'}</h3>
         <p>${activeFilter === 'all' ? 'Add your first product to get started.' : 'Try a different filter or add a product.'}</p>
         ${activeFilter === 'all' ? '<button class="btn btn-primary" onclick="openModal()">+ Add Product</button>' : ''}
       </div>`;

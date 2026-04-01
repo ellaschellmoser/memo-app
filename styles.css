@@ -2,21 +2,21 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream:     #f5f2fa;
-  --blush:     #ede6f5;
-  --rose:      #d4614f;
-  --rose-dk:   #b84535;
-  --lavender:  #9b7fc7;
-  --lav-lt:    #c9b8e8;
-  --ink:       #1e1a2e;
-  --muted:     #7c6e9a;
-  --border:    #ddd5ec;
+  --cream:     #fdfaf7;
+  --blush:     #f2e8e1;
+  --rose:      #c9847a;
+  --rose-dk:   #a85f55;
+  --lavender:  #d8a89b;
+  --lav-lt:    #e8c9bf;
+  --ink:       #2c2420;
+  --muted:     #8a7570;
+  --border:    #e8ddd8;
   --white:     #ffffff;
   --green:     #6a9e7f;
   --amber:     #c49a4a;
   --slate:     #8591a0;
   --radius:    12px;
-  --shadow:    0 2px 16px rgba(30,26,46,.1);
+  --shadow:    0 2px 16px rgba(44,36,32,.1);
 }
 
 body {
@@ -2326,3 +2326,189 @@ body.login-page {
 }
 
 .nav-account-dropdown a:hover { background: var(--blush); color: var(--rose-dk); }
+
+/* ── Ingredient Checker ────────────────────────────────── */
+.ingredients-checker {
+  background: var(--blush);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.ingredients-checker-empty {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.ingredient-checker-summary {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ingredient-checker-count {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  padding: 0.4rem 0.6rem;
+  background: var(--white);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.ingredient-checker-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.ingredient-checker-badge span {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.ingredient-checker-badge.recommended {
+  background: #e8f4ed;
+  color: var(--green);
+}
+
+.ingredient-checker-badge.low-concern {
+  background: #e3f2fd;
+  color: #1e7fa1;
+}
+
+.ingredient-checker-badge.individual {
+  background: #fdf3e3;
+  color: var(--amber);
+}
+
+.ingredient-pills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.ingredient-pill {
+  display: inline-block;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: 'Helvetica Neue', sans-serif;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ingredient-pill:hover {
+  border-color: var(--rose);
+  background: rgba(201, 132, 122, 0.08);
+}
+
+.ingredient-pill--recommended {
+  border-color: var(--green);
+  background: rgba(106, 158, 127, 0.08);
+  color: var(--green);
+}
+
+.ingredient-pill--recommended:hover {
+  background: rgba(106, 158, 127, 0.15);
+}
+
+.ingredient-pill--low-concern {
+  border-color: #1e7fa1;
+  background: rgba(30, 127, 161, 0.08);
+  color: #1e7fa1;
+}
+
+.ingredient-pill--low-concern:hover {
+  background: rgba(30, 127, 161, 0.15);
+}
+
+.ingredient-pill--individual-rating {
+  border-color: var(--amber);
+  background: rgba(196, 154, 74, 0.08);
+  color: var(--amber);
+}
+
+.ingredient-pill--individual-rating:hover {
+  background: rgba(196, 154, 74, 0.15);
+}
+
+.ingredient-detail-popover {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(44, 36, 32, 0.15);
+  z-index: 1000;
+  max-width: 280px;
+  pointer-events: auto;
+}
+
+.popover-content {
+  padding: 1rem;
+  font-family: 'Georgia', serif;
+  color: var(--ink);
+}
+
+.popover-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.popover-safety {
+  margin-bottom: 0.75rem;
+}
+
+.popover-safety-badge {
+  display: inline-block;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.popover-safety--recommended {
+  background: #e8f4ed;
+  color: var(--green);
+}
+
+.popover-safety--low-concern {
+  background: #e3f2fd;
+  color: #1e7fa1;
+}
+
+.popover-safety--individual-rating {
+  background: #fdf3e3;
+  color: var(--amber);
+}
+
+.popover-description {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0;
+}

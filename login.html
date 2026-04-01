@@ -11,7 +11,7 @@
   <div class="login-card">
 
     <a href="login.html" class="nav-logo login-logo">peachy<span>.</span></a>
-    <p class="login-tagline">Your beauty shelf, all in one place.</p>
+    <p class="login-tagline">Your beauty library, all in one place.</p>
 
     <div class="login-tabs">
       <button class="login-tab active" id="tab-login"  onclick="showPanel('login')">Log In</button>
@@ -125,7 +125,7 @@
       localStorage.setItem(`peachy-profile-${handle}`, JSON.stringify({
         name,
         handle: '@' + handle,
-        bio: 'Beauty lover. Building my shelf one product at a time.',
+        bio: 'Beauty lover. Building my library one product at a time.',
       }));
 
       localStorage.setItem('peachy-session', JSON.stringify({ handle }));
